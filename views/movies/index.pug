@@ -1,0 +1,17 @@
+extends ../layout/common.pug
+
+block style
+    link(rel="stylesheet", href="/css/movies.css")
+
+block content
+    main.main
+        div.cards-container
+            each movie in movies
+                div.card
+                    .card__image
+                        img(src=movie.imageUrl, alt="")
+                    div.card__body
+                        div.card__title
+                            p.capital-case #{movie.title}
+                        .card__rating
+                            p.capital-case Added By: #{movie.user.name}

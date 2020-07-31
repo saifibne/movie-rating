@@ -1,0 +1,41 @@
+.card__body {
+  padding: 4px 10px;
+  text-align: center;
+}
+.card__action {
+  display: flex;
+  width: 67%;
+  margin: 0 auto;
+}
+.card__action a,
+.card__action .button__holder {
+  margin: 0 10px;
+}
+.card__btn {
+  padding: 4px 10px;
+  width: 70px;
+  background-color: #4e73df;
+  border: 1px solid #4e73df;
+  -webkit-appearance: none;
+  color: white;
+  border-radius: 4px;
+}
+.card__btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(105, 136, 228, 0.5);
+}
+.card__btn:hover {
+  background-color: #2e59d9;
+  border-color: #2e59d9;
+}
+.btn-danger {
+  background-color: #ea4335;
+  border: 1px solid #ea4335;
+}
+.btn-danger:hover {
+  background-color: #e12717;
+  border-color: #e12717;
+}
+.btn-danger:focus {
+  box-shadow: none;
+}

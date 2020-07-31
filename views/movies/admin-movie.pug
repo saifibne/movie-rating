@@ -1,0 +1,22 @@
+extends ../layout/common.pug
+
+block style
+    link(rel="stylesheet", href="/css/movies.css")
+    link(rel="stylesheet", href="/css/admin-movie.css")
+
+block content
+    main.main
+        div.cards-container
+            each movie in movies
+                div.card
+                    div.card__image
+                        img(src=movie.imageUrl, alt="")
+                    div.card__body
+                        div.card__title
+                            p.capital-case #{movie.title}
+                        div.card__action
+                            a(href=`/add-movie/${movie._id}?editing=true`)
+                                button.card__btn(type="button") Edit
+                            div.button__holder
+                                input(type="hidden", name="movieId", value=movie._id)
+                                button.card__btn.btn-danger(type="submit", name="deleteButton", onclick="deleteFunction(this)") Delete

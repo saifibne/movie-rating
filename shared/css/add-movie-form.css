@@ -1,0 +1,123 @@
+body {
+  background-color: #eaeaea;
+}
+.form-container {
+  width: 600px;
+  /*height: 500px;*/
+  border: 1px solid #d1d3e2;
+  border-radius: 0.35rem;
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.5);
+  margin: 60px auto;
+  padding: 3rem;
+  text-align: center;
+  background-color: white;
+}
+.form__title {
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+.form__title h1 {
+  color: #3a3b45;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0;
+}
+.form-input {
+  margin-bottom: 16px;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.form-textarea {
+  height: 100px;
+}
+.form-input input,
+.form-input textarea {
+  width: 399px;
+  height: 100%;
+  border: 1px solid #d1d3e2;
+  border-radius: 3px;
+  padding: 24px 16px;
+  margin-left: 16px;
+}
+.form-input select {
+  border: 1px solid #d1d3e2;
+  width: 200px;
+  height: 30px;
+  border-radius: 3px;
+  padding: 0 16px;
+  margin-right: auto;
+  margin-left: 31px;
+  background-color: white;
+}
+.form-input input:focus,
+.form-input textarea:focus,
+.form-input select:focus {
+  outline: none;
+  border-color: #bac8f3;
+  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+.form-input option {
+  margin: 10px 0;
+}
+.form-input option:hover {
+  background-color: #ccc;
+}
+.action {
+  margin-top: 40px;
+}
+.btn {
+  background-color: #4e73df;
+  border: 1px solid #4e73df;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 1.5;
+  border-radius: 8px;
+}
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(105, 136, 228, 0.5);
+}
+.btn:hover {
+  background-color: #2e59d9;
+  border-color: #2e59d9;
+}
+.breaker {
+  border-top: 1px solid #d1d3e2;
+  margin-top: 20px;
+}
+.signup {
+  margin-top: 20px;
+}
+.btn-danger {
+  background-color: #ea4335;
+  border: 1px solid #ea4335;
+}
+.btn-danger:hover {
+  background-color: #e12717;
+  border-color: #e12717;
+}
+.btn-danger:focus {
+  box-shadow: none;
+}
+.message-box {
+  width: 100%;
+  text-align: center;
+}
+.message-box p {
+  color: white;
+  padding: 1rem;
+  width: 40%;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: #d97f79;
+  border: 1px solid #e12717;
+  border-radius: 6px;
+  margin: 1rem auto;
+}

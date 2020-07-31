@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+        link(rel="stylesheet", href="/css/main.css")
+        block style
+    body
+        header.main-header
+            .header__brand
+                a.header__brand--item(href="/") Rated
+            div.navbar
+                .main-nav
+                    ul.main-nav__items
+                        li.main-nav__item
+                            a(href="/") Home
+                        li.main-nav__item.dropdown-parent
+                            a() Category
+                            div.dropdown
+                                ul.dropdown__items
+                                    li.dropdown__item
+                                        a(href='/movie/action') Action
+                                    li.dropdown__item
+                                        a(href='/movie/horror') Horror
+                                    li.dropdown__item
+                                        a(href='/movie/romantic') Romantic
+                        if isLoggedIn
+                            li.main-nav__item
+                                a(href="/add-movie") Add Movie
+                .main-nav__side
+                    ul.main-nav__items--side
+                        if isLoggedIn
+                            li.main-nav__item--side.dropdown-parent
+                                div.user__container
+                                    img.contained__image(src="/images/user.png")
+                                div.special-dropdown
+                                    ul.dropdown__items
+                                        li.dropdown__item
+                                            a(href='/admin-movies') Movies
+                                        li.dropdown__item
+                                            a(href='/admin/logout') Log Out
+                        else
+                            li.main-nav__item--side
+                                a(href="/admin/login") Login
+        block content
+        script(src="/js/main.js")
+        script(src="/js/delete.js")

@@ -1,0 +1,21 @@
+extends ../layout/common
+
+block style
+    link(rel="stylesheet", href="/css/form.css")
+
+block content
+    if errorMessage
+        div.message-box
+            p #{errorMessage}
+    div.form-container
+        form.form(method='POST', action="/admin/signup" novalidate)
+            div.form__title
+                h1 Welcome Back!
+            div.form-input
+                input(type='text', placeholder="Enter Your Name", name="name")
+            div.form-input
+                input(type='text', placeholder="Enter Email Address...", name="email")
+            div.form-input
+                input(type='password', placeholder="Password", name="password")
+            div.signup
+                button.btn.btn-danger(type='submit') Sign Up

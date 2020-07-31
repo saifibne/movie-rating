@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400;600;700&display=swap");
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Be Vietnam", sans-serif;
+  margin: 0;
+  /*background: #ccc;*/
+}
+.main-header {
+  display: flex;
+  background: #404040;
+  align-items: center;
+  /*justify-content: space-around;*/
+}
+.header__brand {
+  margin: 8px 10px;
+}
+.header__brand a {
+  text-decoration: none;
+  font-weight: bolder;
+  font-size: 26px;
+  color: white;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  vertical-align: middle;
+}
+.main-nav__items {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.main-nav__item a {
+  text-decoration: none;
+  padding: 0 10px;
+  font-size: 18px;
+  color: white;
+}
+.main-nav__items--side {
+  list-style: none;
+  display: flex;
+  margin: 0 10px;
+  padding: 0;
+}
+.main-nav__item--side a {
+  text-decoration: none;
+  font-size: 18px;
+  color: white;
+}
+.user__container {
+  width: 35px;
+  height: 35px;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.contained__image {
+  width: 100%;
+  height: 100%;
+}
+.dropdown-parent {
+  position: relative;
+}
+.dropdown-parent a {
+  padding: 13.5px 10px;
+  cursor: pointer;
+}
+.dropdown-parent:hover .dropdown {
+  display: block;
+}
+.dropdown {
+  position: absolute;
+  min-width: 100px;
+  top: 40px;
+  display: none;
+}
+.special-dropdown {
+  right: 0;
+  top: 45px;
+  position: absolute;
+  min-width: 100px;
+  display: none;
+}
+.dropdown__items {
+  list-style: none;
+  margin: 0;
+  background: #ecebeb;
+  padding: 0;
+  text-align: center;
+}
+.dropdown__item {
+  display: block;
+}
+.dropdown__item a {
+  color: #3a3b45;
+  font-size: 1.05rem;
+  /*margin: 10px;*/
+  display: block;
+  padding: 6px;
+}
+.dropdown__item a:hover {
+  background-color: white;
+}
+.open {
+  display: block;
+}
