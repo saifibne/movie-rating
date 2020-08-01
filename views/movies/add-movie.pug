@@ -6,7 +6,7 @@ block style
 block content
     if editing
         div.form-container
-            form(method="POST", action="/edit-movie")
+            form(method="POST", action="/edit-movie", enctype="multipart/form-data")
                 div.form__title
                     h1 Add Movie
                 div.form-input
@@ -14,7 +14,7 @@ block content
                     input(type="text", name="title", id="title", placeholder="Movie Title..", value=movie.title)
                 div.form-input
                     label(for="imageUrl") Image
-                    input(type="text", name="imageUrl", id="imageUrl", placeholder="Movie Image..", value=movie.imageUrl)
+                    input(type="file", name="imageUrl", id="imageUrl")
                 div.form-input.form-textarea
                     label(for="description") Description
                     textarea(type="text", name="description", id="description", placeholder="Movie Description..", rows=6) #{movie.description}
@@ -30,7 +30,7 @@ block content
                 input(type="hidden", name="movieId", value=movie._id)
     else
         div.form-container
-            form(method="POST", action="/add-movie")
+            form(method="POST", action="/add-movie", enctype="multipart/form-data")
                 div.form__title
                     h1 Add Movie
                 div.form-input
@@ -38,7 +38,7 @@ block content
                     input(type="text", name="title", id="title", placeholder="Movie Title..")
                 div.form-input
                     label(for="imageUrl") Image
-                    input(type="text", name="imageUrl", id="imageUrl", placeholder="Movie Image..")
+                    input(type="file", name="imageUrl", id="imageUrl")
                 div.form-input.form-textarea
                     label(for="description") Description
                     textarea(type="text", name="description", id="description", placeholder="Movie Description..", rows=6)

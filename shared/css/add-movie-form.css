@@ -41,7 +41,9 @@ body {
   border: 1px solid #d1d3e2;
   border-radius: 3px;
   padding: 24px 16px;
-  margin-left: 16px;
+}
+#imageUrl {
+  padding: 10px 16px;
 }
 .form-input select {
   border: 1px solid #d1d3e2;

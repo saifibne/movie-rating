@@ -1,5 +1,6 @@
 const User = require("../model/user");
 const Movie = require("../model/movie");
+const utils = require("../utils/utils");
 
 exports.getMovies = (req, res, next) => {
   Movie.find()
@@ -33,14 +34,18 @@ exports.getEditMovie = async (req, res, next) => {
 
 exports.postEditMovie = async (req, res, next) => {
   const updatedTitle = req.body.title;
-  const updatedImageUrl = req.body.imageUrl;
+  let updatedImageUrl;
+  if (req.file) {
+    updatedImageUrl = req.file;
+  }
   const updatedDescription = req.body.description;
   const updatedCategory = req.body.category;
   const movieId = req.body.movieId;
   const movie = await Movie.findById(movieId);
   movie.title = updatedTitle;
-  if (movie.imageUrl !== updatedImageUrl) {
-    movie.imageUrl = updatedImageUrl;
+  if (movie.imageUrl !== updatedImageUrl.path) {
+    utils.deleteImage(movie.imageUrl);
+    movie.imageUrl = updatedImageUrl.path;
   }
   movie.description = updatedDescription;
   movie.category = updatedCategory;
@@ -65,14 +70,19 @@ exports.addMovies = async (req, res, next) => {
   if (!req.user) {
     return res.redirect("/admin/login");
   }
+  if (!req.file) {
+    const error = new Error("image mimetype not correct.");
+    error.statusCode = 301;
+    throw error;
+  }
   const title = req.body.title;
-  const imageUrl = req.body.imageUrl;
+  const imageUrl = req.file;
   const description = req.body.description;
   const category = req.body.category;
   const userId = req.user._id;
   const movie = new Movie({
     title: title,
-    imageUrl: imageUrl,
+    imageUrl: imageUrl.path,
     description: description,
     originalRating: 0,
     ratingData: [],
@@ -119,6 +129,8 @@ exports.postDeleteMovie = async (req, res, next) => {
   );
   user.movies = updatedMovies;
   await user.save();
+  const movie = await Movie.findById(movieId);
+  utils.deleteImage(movie.imageUrl);
   await Movie.findByIdAndRemove(movieId);
   res.status(200).json({
     message: "movie deleted",
