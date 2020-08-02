@@ -106,6 +106,30 @@ body {
 .dropdown__item a:hover {
   background-color: white;
 }
+.error-container {
+  width: 350px;
+  padding: 20px;
+  border: 1px solid #c40000;
+  margin: 10px auto;
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px #fadddd inset;
+  text-align: center;
+  background-color: white;
+}
+.error-title {
+  margin: 0;
+  color: #c40000;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.25;
+  padding-bottom: 4px;
+}
+.error-body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 19px;
+  color: #111111;
+}
 .open {
   display: block;
 }

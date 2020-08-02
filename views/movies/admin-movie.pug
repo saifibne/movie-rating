@@ -19,4 +19,5 @@ block content
                                 button.card__btn(type="button") Edit
                             div.button__holder
                                 input(type="hidden", name="movieId", value=movie._id)
+                                input(type="hidden", name="_csrf", value=_csrf)
                                 button.card__btn.btn-danger(type="submit", name="deleteButton", onclick="deleteFunction(this)") Delete

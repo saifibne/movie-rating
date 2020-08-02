@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 
 const User = require("../model/user");
 
@@ -10,16 +11,16 @@ exports.getSignUp = (req, res, next) => {
 };
 
 exports.postSignUp = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.render("users/signup", {
+      msg: errors.array()[0].msg,
+    });
+  }
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
   const hashedPassword = await bcrypt.hash(password, 12);
-  const takenUser = await User.findOne({ email: email });
-  if (takenUser) {
-    req.flash("message", "Email address already exists");
-    // console.log(req.flash("message"));
-    return res.redirect("/admin/signup");
-  }
   const user = new User({
     name: name,
     email: email,
@@ -31,19 +32,30 @@ exports.postSignUp = async (req, res, next) => {
 };
 
 exports.getLogin = (req, res, next) => {
-  res.render("users/login");
+  const flashMessage = req.flash("message");
+  res.render("users/login", {
+    flashMessage: flashMessage[0],
+  });
 };
 
 exports.postLogin = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.render("users/login", {
+      msg: errors.array()[0].msg,
+    });
+  }
   const email = req.body.email;
   const password = req.body.password;
   const user = await User.findOne({ email: email });
   if (!user) {
-    return console.log("wrong email address");
+    req.flash("message", "You entered wrong email address.");
+    return res.redirect("/admin/login");
   }
   const isMatched = await bcrypt.compare(password, user.password);
   if (!isMatched) {
-    return console.log("wrong password.");
+    req.flash("message", "Your password is incorrect.");
+    return res.redirect("/admin/login");
   }
   req.session.user = { _id: user._id, email: user.email };
   req.session.isLoggedIn = true;

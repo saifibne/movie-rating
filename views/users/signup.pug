@@ -4,9 +4,10 @@ block style
     link(rel="stylesheet", href="/css/form.css")
 
 block content
-    if errorMessage
-        div.message-box
-            p #{errorMessage}
+    if msg
+        div.error-container
+            h3.error-title There was a problem
+            p.error-body #{msg}
     div.form-container
         form.form(method='POST', action="/admin/signup" novalidate)
             div.form__title
@@ -17,5 +18,8 @@ block content
                 input(type='text', placeholder="Enter Email Address...", name="email")
             div.form-input
                 input(type='password', placeholder="Password", name="password")
+            input(type="hidden", name="_csrf", value=_csrf)
+            div.form-input
+                input(type='password', placeholder="Confirm Password", name="confirmPassword")
             div.signup
                 button.btn.btn-danger(type='submit') Sign Up

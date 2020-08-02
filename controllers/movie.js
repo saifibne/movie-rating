@@ -1,3 +1,5 @@
+const { validationResult } = require("express-validator");
+
 const User = require("../model/user");
 const Movie = require("../model/movie");
 const utils = require("../utils/utils");
@@ -17,35 +19,53 @@ exports.getMovies = (req, res, next) => {
 
 exports.getAddMovie = (req, res, next) => {
   const editing = req.query.editing;
+  const flashMessage = req.flash("message");
   res.render("movies/add-movie", {
     editing: editing,
+    flashMessage: flashMessage[0],
   });
 };
 
 exports.getEditMovie = async (req, res, next) => {
   const movieId = req.params.movieId;
   const editing = req.query.editing;
+  const flashMessage = req.flash("message");
   const singleMovie = await Movie.findById(movieId);
   res.render("movies/add-movie", {
     editing: editing,
     movie: singleMovie,
+    flashMessage: flashMessage[0],
   });
 };
 
 exports.postEditMovie = async (req, res, next) => {
-  const updatedTitle = req.body.title;
-  let updatedImageUrl;
-  if (req.file) {
-    updatedImageUrl = req.file;
+  const errors = validationResult(req);
+  if (!req.user) {
+    return res.redirect("/admin/login");
   }
+  if (!errors.isEmpty()) {
+    req.flash(
+      "message",
+      "Title and description should be at least 3 character long. Please fill the form again."
+    );
+    return res.redirect(req.headers.referer);
+  }
+  console.log(req.headers.referer);
+  const updatedTitle = req.body.title;
   const updatedDescription = req.body.description;
   const updatedCategory = req.body.category;
   const movieId = req.body.movieId;
   const movie = await Movie.findById(movieId);
   movie.title = updatedTitle;
-  if (movie.imageUrl !== updatedImageUrl.path) {
+  let updatedImageUrl;
+  if (req.file) {
+    updatedImageUrl = req.file.path;
+  } else {
+    updatedImageUrl = movie.imageUrl;
+  }
+  if (movie.imageUrl !== updatedImageUrl) {
     utils.deleteImage(movie.imageUrl);
-    movie.imageUrl = updatedImageUrl.path;
+    movie.imageUrl = updatedImageUrl;
   }
   movie.description = updatedDescription;
   movie.category = updatedCategory;
@@ -67,16 +87,27 @@ exports.getMovieByCategory = async (req, res, next) => {
 };
 
 exports.addMovies = async (req, res, next) => {
+  const errors = validationResult(req);
   if (!req.user) {
     return res.redirect("/admin/login");
   }
-  if (!req.file) {
-    const error = new Error("image mimetype not correct.");
-    error.statusCode = 301;
-    throw error;
+  const imageUrl = req.file;
+  if (!errors.isEmpty()) {
+    if (imageUrl !== undefined) {
+      utils.deleteImage(imageUrl.path);
+    }
+    return res.render("movies/add-movie", {
+      msg: errors.array()[0].msg,
+    });
+  }
+  if (imageUrl === undefined) {
+    req.flash(
+      "message",
+      "Please choose an image which should be jpg, jpeg, png or webp."
+    );
+    return res.redirect("/add-movie");
   }
   const title = req.body.title;
-  const imageUrl = req.file;
   const description = req.body.description;
   const category = req.body.category;
   const userId = req.user._id;

@@ -6,12 +6,14 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const flash = require("connect-flash");
 const multer = require("multer");
+const csrf = require("csurf");
 
 const movieRoute = require("./routes/movie");
 const userRoute = require("./routes/user");
 const User = require("./model/user");
 
 const app = express();
+const csrfProtection = csrf;
 const sessionStore = new MongoStore({
   url: " mongodb://127.0.0.1:27017/movie",
   collection: "sessions",
@@ -60,6 +62,7 @@ app.use(
   })
 );
 app.use(flash());
+app.use(csrfProtection());
 
 app.use((req, res, next) => {
   if (!req.session.user) {
@@ -80,7 +83,9 @@ app.use((req, res, next) => {
   if (!req.session) {
     return next();
   }
+  console.log(req.session);
   res.locals.isLoggedIn = req.session.isLoggedIn;
+  res.locals._csrf = req.csrfToken();
   next();
 });
 
