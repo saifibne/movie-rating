@@ -4,17 +4,25 @@ const User = require("../model/user");
 const Movie = require("../model/movie");
 const utils = require("../utils/utils");
 
-exports.getMovies = (req, res, next) => {
-  Movie.find()
-    .populate("user")
-    .then((movies) => {
-      res.render("movies/index", {
-        movies: movies,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+exports.getMovies = async (req, res, next) => {
+  const movies = await Movie.find().populate("user");
+  if (!movies) {
+    const error = new Error("Movies can't be found from database");
+    error.statusCode = 500;
+    throw error;
+  }
+  const changedMovies = movies.map((movie) => {
+    const percentageRating = Math.round((movie.originalRating / 5) * 100);
+    const totalUser = movie.comments.length;
+    return {
+      ...movie._doc,
+      ratingInPercentage: percentageRating,
+      totalUser: totalUser,
+    };
+  });
+  res.render("movies/index", {
+    movies: changedMovies,
+  });
 };
 
 exports.getAddMovie = (req, res, next) => {
@@ -50,12 +58,16 @@ exports.postEditMovie = async (req, res, next) => {
     );
     return res.redirect(req.headers.referer);
   }
-  console.log(req.headers.referer);
   const updatedTitle = req.body.title;
   const updatedDescription = req.body.description;
   const updatedCategory = req.body.category;
   const movieId = req.body.movieId;
   const movie = await Movie.findById(movieId);
+  if (!movie) {
+    const error = new Error("Can't find the movie from database");
+    error.statusCode = 500;
+    throw error;
+  }
   movie.title = updatedTitle;
   let updatedImageUrl;
   if (req.file) {
@@ -123,6 +135,11 @@ exports.addMovies = async (req, res, next) => {
   });
   const savedMovie = await movie.save();
   const user = await User.findOne({ _id: userId });
+  if (!user) {
+    const error = new Error("Can't find the user from the database.");
+    error.statusCode = 500;
+    throw error;
+  }
   user.movies.push({ movieId: savedMovie._id });
   await user.save();
   res.redirect("/");
@@ -154,6 +171,11 @@ exports.postDeleteMovie = async (req, res, next) => {
   const userId = req.user._id;
   const movieId = req.params.movieId;
   const user = await User.findOne({ _id: userId });
+  if (!user) {
+    const error = new Error("Can't find the user from the database.");
+    error.statusCode = 500;
+    throw error;
+  }
   const movies = [...user.movies];
   const updatedMovies = movies.filter(
     (movie) => movie.movieId.toString() !== movieId.toString()
@@ -161,6 +183,11 @@ exports.postDeleteMovie = async (req, res, next) => {
   user.movies = updatedMovies;
   await user.save();
   const movie = await Movie.findById(movieId);
+  if (!movie) {
+    const error = new Error("Can't find the movie from the database.");
+    error.statusCode = 500;
+    throw error;
+  }
   utils.deleteImage(movie.imageUrl);
   await Movie.findByIdAndRemove(movieId);
   res.status(200).json({

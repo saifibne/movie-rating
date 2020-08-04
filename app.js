@@ -13,7 +13,6 @@ const userRoute = require("./routes/user");
 const User = require("./model/user");
 
 const app = express();
-const csrfProtection = csrf;
 const sessionStore = new MongoStore({
   url: " mongodb://127.0.0.1:27017/movie",
   collection: "sessions",
@@ -48,6 +47,12 @@ app.set("view engine", "pug");
 app.set("views", "./views");
 app.use(express.static(path.join(__dirname, "shared")));
 app.use("/images", express.static(path.join(__dirname, "images")));
+app.use(
+  "/fontawesome",
+  express.static(
+    path.join(__dirname, "node_modules", "@fortawesome", "fontawesome-free")
+  )
+);
 
 app.use(
   multer({ storage: storage, fileFilter: fileFilter }).single("imageUrl")
@@ -62,7 +67,7 @@ app.use(
   })
 );
 app.use(flash());
-app.use(csrfProtection());
+app.use(csrf());
 
 app.use((req, res, next) => {
   if (!req.session.user) {
@@ -83,7 +88,6 @@ app.use((req, res, next) => {
   if (!req.session) {
     return next();
   }
-  console.log(req.session);
   res.locals.isLoggedIn = req.session.isLoggedIn;
   res.locals._csrf = req.csrfToken();
   next();
@@ -91,6 +95,14 @@ app.use((req, res, next) => {
 
 app.use(movieRoute);
 app.use("/admin", userRoute);
+
+app.use((error, req, res, next) => {
+  if (error) {
+    const message = error.message;
+    const statusCode = error.statusCode || 500;
+    res.render("error/500");
+  }
+});
 
 mongoose
   .connect(" mongodb://127.0.0.1:27017/movie", {

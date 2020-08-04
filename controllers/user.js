@@ -59,13 +59,15 @@ exports.postLogin = async (req, res, next) => {
   }
   req.session.user = { _id: user._id, email: user.email };
   req.session.isLoggedIn = true;
-  res.redirect("/");
+  req.session.save((err) => {
+    res.redirect("/");
+  });
 };
 
 exports.getLogOut = (req, res, next) => {
   if (req.session.user) {
     req.session.destroy(() => {
-      res.redirect("/admin/login");
+      res.redirect("/");
     });
   }
 };
