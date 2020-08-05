@@ -1,3 +1,32 @@
+.main-image {
+  height: 450px;
+  width: 100%;
+  position: relative;
+}
+.main-image__container {
+  height: 450px;
+  width: 100%;
+  display: none;
+  /*background-repeat: no-repeat;*/
+  /*background-position: center;*/
+  /*background-size: cover;*/
+}
+.main-image__source {
+  height: 100%;
+  width: 100%;
+}
+.arrow__container {
+  position: absolute;
+  top: 45%;
+  padding: 10px 10px 10px 0;
+}
+.arrow__container-right {
+  right: 0;
+  padding: 10px 0 10px 10px;
+}
+.arrow__container:hover {
+  background-color: white;
+}
 .cards-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, 290px);
@@ -66,4 +95,7 @@
 }
 .capital-case {
   text-transform: capitalize;
+}
+.slideshow-open {
+  display: block;
 }

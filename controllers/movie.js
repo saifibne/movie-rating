@@ -93,8 +93,17 @@ exports.getMovieByCategory = async (req, res, next) => {
     error.statusCode = 500;
     throw error;
   }
+  const changedMovies = movies.map((movie) => {
+    const percentageRating = Math.round((movie.originalRating / 5) * 100);
+    const totalUser = movie.comments.length;
+    return {
+      ...movie._doc,
+      ratingInPercentage: percentageRating,
+      totalUser: totalUser,
+    };
+  });
   res.render("movies/index", {
-    movies: movies,
+    movies: changedMovies,
   });
 };
 

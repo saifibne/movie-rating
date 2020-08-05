@@ -4,63 +4,64 @@ block style
     link(rel="stylesheet", href="/css/add-movie-form.css")
 
 block content
-    if editing
-        if flashMessage
-            div.error-container
-                h3.error-title There was a problem
-                p.error-body #{flashMessage}
-        div.form-container
-            form(method="POST", action="/edit-movie", enctype="multipart/form-data")
-                div.form__title
-                    h1 Add Movie
-                div.form-input
-                    label(for="title") Title
-                    input(type="text", name="title", id="title", placeholder="Movie Title..", value=movie.title)
-                div.form-input
-                    label(for="imageUrl") Image
-                    input(type="file", name="imageUrl", id="imageUrl")
-                div.form-input.form-textarea
-                    label(for="description") Description
-                    textarea(type="text", name="description", id="description", placeholder="Movie Description..", rows=6) #{movie.description}
-                div.form-input
-                    label(for="category") Category
-                    input(type="hidden", id="category", value=movie.category)
-                    select(name="category", id="categorySelect")
-                        option(value="action", id="option1") Action
-                        option(value="horror", id="option2") Horror
-                        option(value="romantic", id="option3") Romantic
+    main.main
+        if editing
+            if flashMessage
+                div.error-container
+                    h3.error-title There was a problem
+                    p.error-body #{flashMessage}
+            div.form-container
+                form(method="POST", action="/edit-movie", enctype="multipart/form-data")
+                    div.form__title
+                        h1 Add Movie
+                    div.form-input
+                        label(for="title") Title
+                        input(type="text", name="title", id="title", placeholder="Movie Title..", value=movie.title)
+                    div.form-input
+                        label(for="imageUrl") Image
+                        input(type="file", name="imageUrl", id="imageUrl")
+                    div.form-input.form-textarea
+                        label(for="description") Description
+                        textarea(type="text", name="description", id="description", placeholder="Movie Description..", rows=6) #{movie.description}
+                    div.form-input
+                        label(for="category") Category
+                        input(type="hidden", id="category", value=movie.category)
+                        select(name="category", id="categorySelect")
+                            option(value="action", id="option1") Action
+                            option(value="horror", id="option2") Horror
+                            option(value="romantic", id="option3") Romantic
+                        input(type="hidden", name="_csrf", value=_csrf)
+                    div.form-action
+                        button.btn(type="submit") Update
+                    input(type="hidden", name="movieId", value=movie._id)
+        else
+            if msg
+                div.error-container
+                    h3.error-title There was a problem
+                    p.error-body #{msg}
+            if flashMessage
+                div.error-container
+                    h3.error-title There was a problem
+                    p.error-body #{flashMessage}
+            div.form-container
+                form(method="POST", action="/add-movie", enctype="multipart/form-data")
+                    div.form__title
+                        h1 Add Movie
+                    div.form-input
+                        label(for="title") Title
+                        input(type="text", name="title", id="title", placeholder="Movie Title..")
+                    div.form-input
+                        label(for="imageUrl") Image
+                        input(type="file", name="imageUrl", id="imageUrl")
+                    div.form-input.form-textarea
+                        label(for="description") Description
+                        textarea(type="text", name="description", id="description", placeholder="Movie Description..", rows=6)
+                    div.form-input
+                        label(for="category") Category
+                        select(name="category", id="category")
+                            option(value="action") Action
+                            option(value="horror") Horror
+                            option(value="romantic") Romantic
                     input(type="hidden", name="_csrf", value=_csrf)
-                div.form-action
-                    button.btn(type="submit") Update
-                input(type="hidden", name="movieId", value=movie._id)
-    else
-        if msg
-            div.error-container
-                h3.error-title There was a problem
-                p.error-body #{msg}
-        if flashMessage
-            div.error-container
-                h3.error-title There was a problem
-                p.error-body #{flashMessage}
-        div.form-container
-            form(method="POST", action="/add-movie", enctype="multipart/form-data")
-                div.form__title
-                    h1 Add Movie
-                div.form-input
-                    label(for="title") Title
-                    input(type="text", name="title", id="title", placeholder="Movie Title..")
-                div.form-input
-                    label(for="imageUrl") Image
-                    input(type="file", name="imageUrl", id="imageUrl")
-                div.form-input.form-textarea
-                    label(for="description") Description
-                    textarea(type="text", name="description", id="description", placeholder="Movie Description..", rows=6)
-                div.form-input
-                    label(for="category") Category
-                    select(name="category", id="category")
-                        option(value="action") Action
-                        option(value="horror") Horror
-                        option(value="romantic") Romantic
-                input(type="hidden", name="_csrf", value=_csrf)
-                div.form-action
-                    button.btn(type="submit") Submit
+                    div.form-action
+                        button.btn(type="submit") Submit

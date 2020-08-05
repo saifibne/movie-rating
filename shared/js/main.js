@@ -7,6 +7,9 @@ const option2 = document.querySelector("#option2");
 const option3 = document.querySelector("#option3");
 const userContainer = document.querySelector(".user__container");
 const specialDropdown = document.querySelector(".special-dropdown");
+const mainImageContainer = document.querySelectorAll(".main-image__container");
+
+let imageIndex = 1;
 
 dropdownParent.addEventListener("click", () => {
   dropdown.classList.add("open");
@@ -17,6 +20,7 @@ if (main) {
     dropdown.classList.remove("open");
     specialDropdown.classList.remove("open");
   });
+  console.log(mainImageContainer);
 }
 
 if (userContainer) {
@@ -33,4 +37,24 @@ if (category) {
   } else if (option3.value === category.value) {
     option3.setAttribute("selected", "selected");
   }
+}
+
+function showImage(n) {
+  if (n > mainImageContainer.length) {
+    imageIndex = 1;
+  }
+  if (n < 1) {
+    imageIndex = mainImageContainer.length;
+  }
+  for (let i = 0; i < mainImageContainer.length; i++) {
+    mainImageContainer[i].classList.remove("slideshow-open");
+  }
+  mainImageContainer[imageIndex - 1].classList.add("slideshow-open");
+}
+
+showImage(imageIndex);
+
+function nextImage(n) {
+  imageIndex += n;
+  showImage(imageIndex);
 }

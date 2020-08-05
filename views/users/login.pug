@@ -4,26 +4,27 @@ block style
     link(rel="stylesheet", href="/css/form.css")
 
 block content
-    if msg
-        div.error-container
-            h3.error-title There was a problem
-            p.error-body #{msg}
-    if flashMessage
-        div.error-container
-            h3.error-title There was a problem
-            p.error-body #{flashMessage}
-    div.form-container
-        form.form(method='POST', action="/admin/login" novalidate)
-            div.form__title
-                h1 Welcome Back!
-            div.form-input
-                input(type='text', placeholder="Enter Email Address...", name="email")
-            div.form-input
-                input(type='password', placeholder="Password", name="password")
-            div.action
-                button.btn(type='submit') Log In
-            input(type="hidden", name="_csrf", value=_csrf)
-        div.breaker
-        div.signup
-            a(href="/admin/signup")
-                button.btn.btn-danger(type='submit') Sign Up
+    main.main
+        if msg
+            div.error-container
+                h3.error-title There was a problem
+                p.error-body #{msg}
+        if flashMessage
+            div.error-container
+                h3.error-title There was a problem
+                p.error-body #{flashMessage}
+        div.form-container
+            form.form(method='POST', action="/admin/login" novalidate)
+                div.form__title
+                    h1 Welcome Back!
+                div.form-input
+                    input(type='text', placeholder="Enter Email Address...", name="email")
+                div.form-input
+                    input(type='password', placeholder="Password", name="password")
+                div.action
+                    button.btn(type='submit') Log In
+                input(type="hidden", name="_csrf", value=_csrf)
+            div.breaker
+            div.signup
+                a(href="/admin/signup")
+                    button.btn.btn-danger(type='submit') Sign Up

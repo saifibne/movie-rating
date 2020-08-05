@@ -78,6 +78,7 @@ body {
   min-width: 100px;
   top: 40px;
   display: none;
+  z-index: 100;
 }
 .special-dropdown {
   right: 0;
@@ -85,6 +86,7 @@ body {
   position: absolute;
   min-width: 100px;
   display: none;
+  z-index: 100;
 }
 .dropdown__items {
   list-style: none;
@@ -129,6 +131,26 @@ body {
   font-size: 13px;
   line-height: 19px;
   color: #111111;
+}
+.footer-content {
+  margin-top: 2rem;
+  background-color: #404040;
+}
+.footer__items {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+.footer__item {
+  margin: 15px 0;
+}
+.footer__item p {
+  margin: 0;
+  padding: 0 15px;
+  color: white;
 }
 .open {
   display: block;
