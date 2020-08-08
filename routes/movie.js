@@ -21,10 +21,10 @@ router.post(
       .isEmpty()
       .withMessage("Title should not be empty")
       .isLength({ min: 3 })
-      .withMessage("Title" + " should have atleast 3 character long."),
+      .withMessage("Title" + " should have at least 3 character long."),
     body(
       "description",
-      "Description should not be empty and atleast 3 character long."
+      "Description should not be empty and at least 3 character long."
     )
       .not()
       .isEmpty()
@@ -41,10 +41,10 @@ router.post(
       .isEmpty()
       .withMessage("Title should not be empty")
       .isLength({ min: 3 })
-      .withMessage("Title" + " should have atleast 3 character long."),
+      .withMessage("Title" + " should have at least 3 character long."),
     body(
       "description",
-      "Description should not be empty and atleast 3 character long."
+      "Description should not be empty and at least 3 character long."
     )
       .not()
       .isEmpty()
@@ -52,8 +52,36 @@ router.post(
   ],
   movieController.postEditMovie
 );
-router.post("/add-comment", movieController.postAddComment);
-router.post("/update-comment", movieController.postUpdateComment);
+router.post(
+  "/add-comment",
+  util.isAuth,
+  [
+    body(
+      "comment",
+      "Comment field should not be empty and at least 6 character long."
+    )
+      .not()
+      .isEmpty()
+      .trim()
+      .isLength({ min: 6 }),
+  ],
+  movieController.postAddComment
+);
+router.post(
+  "/update-comment",
+  util.isAuth,
+  [
+    body(
+      "comment",
+      "Comment field should not be empty and at least 6 character long."
+    )
+      .not()
+      .isEmpty()
+      .trim()
+      .isLength({ min: 6 }),
+  ],
+  movieController.postUpdateComment
+);
 router.delete("/delete/:movieId", util.isAuth, movieController.postDeleteMovie);
 
 module.exports = router;

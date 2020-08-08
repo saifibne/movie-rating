@@ -111,6 +111,7 @@ exports.getSingleMovie = async (req, res, next) => {
   const movieId = req.params.movieId;
   const movieEditing = req.query.editing;
   const user = req.user;
+  const errorMessage = req.flash("message");
   const singleMovie = await Movie.findById(movieId).populate("user");
   if (!singleMovie) {
     const error = new Error("could not find single movie.");
@@ -124,31 +125,40 @@ exports.getSingleMovie = async (req, res, next) => {
   const changedCommentsForDate = changedSingleMovie.comments.map((comment) => {
     return { ...comment._doc, time: comment.time.toDateString() };
   });
-  // console.log(changedCommentsForDate);
   let existingComment;
   if (req.user) {
     existingComment = changedSingleMovie.comments.find(
       (comment) => comment.userId.toString() === user._id.toString()
     );
   }
-  // console.log(existingComment);
   res.render("movies/movie-description", {
     movie: changedSingleMovie,
     user: req.user,
     comments: changedCommentsForDate,
     existingComment: existingComment,
     editing: movieEditing,
+    msg: errorMessage[0],
   });
 };
 
 exports.postAddComment = async (req, res, next) => {
+  const errors = validationResult(req);
   if (!req.user) {
     return res.redirect("/admin/login");
   }
   const movieId = req.body.movieId;
+  if (!errors.isEmpty()) {
+    req.flash("message", "Comment and rating field should not be empty.");
+    return res.redirect(`/movie/${movieId}`);
+  }
   const comment = req.body.comment;
   const rating = 3;
   const movie = await Movie.findById(movieId);
+  if (!movie) {
+    const error = new Error("could not find movie.");
+    error.statusCode = 500;
+    throw error;
+  }
   if (movie.comments.length === 0) {
     movie.originalRating += rating;
   } else {
@@ -172,15 +182,25 @@ exports.postAddComment = async (req, res, next) => {
 };
 
 exports.postUpdateComment = async (req, res, next) => {
+  const errors = validationResult(req);
   if (!req.user) {
     return res.redirect("/admin/login");
   }
-  const user = req.user;
   const movieId = req.body.movieId;
+  if (!errors.isEmpty()) {
+    req.flash("message", "Comment and rating field should not be empty.");
+    return res.redirect(`/movie/${movieId}?editing=true`);
+  }
+  const user = req.user;
   const comment = req.body.comment;
   const rating = 3;
   let totalRating = 0;
   const movie = await Movie.findById(movieId);
+  if (!movie) {
+    const error = new Error("could not find movie.");
+    error.statusCode = 500;
+    throw error;
+  }
   for (let comment of movie.comments) {
     totalRating += comment.rating;
   }

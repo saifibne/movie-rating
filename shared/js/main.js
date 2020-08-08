@@ -18,7 +18,9 @@ dropdownParent.addEventListener("click", () => {
 if (main) {
   main.addEventListener("click", () => {
     dropdown.classList.remove("open");
-    specialDropdown.classList.remove("open");
+    if (specialDropdown) {
+      specialDropdown.classList.remove("open");
+    }
   });
 }
 
