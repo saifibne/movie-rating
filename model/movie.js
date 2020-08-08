@@ -20,12 +20,6 @@ const movieSchema = new Schema(
       type: Number,
       required: true,
     },
-    ratingData: [
-      {
-        rating: { type: Number },
-        userId: { type: Schema.Types.ObjectId },
-      },
-    ],
     user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     category: {
       type: String,
@@ -33,7 +27,10 @@ const movieSchema = new Schema(
     },
     comments: [
       {
+        name: { type: String },
         comment: { type: String },
+        time: { type: Date },
+        rating: { type: Number },
         userId: { type: Schema.Types.ObjectId },
       },
     ],

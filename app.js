@@ -100,6 +100,7 @@ app.use((error, req, res, next) => {
   if (error) {
     const message = error.message;
     const statusCode = error.statusCode || 500;
+    console.log(message);
     res.render("error/500");
   }
 });

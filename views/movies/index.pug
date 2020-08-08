@@ -18,17 +18,18 @@ block content
                 i(class="fas fa-arrow-left fa-2x")
         div.cards-container
             each movie in movies
-                div.card
-                    div.card__image
-                        div.card__rating
-                            i(class="fas fa-heart icon-customize")
-                            div.rating__percentage
-                                h4 #{movie.ratingInPercentage}%
-                            div.rating__users
-                                p #{movie.totalUser}
-                        img(src=`/${movie.imageUrl}`, alt="")
-                    div.card__body
-                        div.card__title
-                            p.capital-case #{movie.title}
-                        div.card__text
-                            p.capital-case Added By: #{movie.user.name}
+                a.movie-anchor(href=`/movie/${movie._id}`)
+                    div.card
+                        div.card__image
+                            div.card__rating
+                                i(class="fas fa-heart icon-customize")
+                                div.rating__percentage
+                                    h4 #{movie.ratingInPercentage}%
+                                div.rating__users
+                                    p #{movie.totalUser}
+                            img(src=`/${movie.imageUrl}`, alt="")
+                        div.card__body
+                            div.card__title
+                                p.capital-case #{movie.title}
+                            div.card__text
+                                p.capital-case Added By: #{movie.user.name}

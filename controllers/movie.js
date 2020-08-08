@@ -107,6 +107,110 @@ exports.getMovieByCategory = async (req, res, next) => {
   });
 };
 
+exports.getSingleMovie = async (req, res, next) => {
+  const movieId = req.params.movieId;
+  const movieEditing = req.query.editing;
+  const user = req.user;
+  const singleMovie = await Movie.findById(movieId).populate("user");
+  if (!singleMovie) {
+    const error = new Error("could not find single movie.");
+    error.statusCode = 500;
+    throw error;
+  }
+  const changedSingleMovie = {
+    ...singleMovie._doc,
+    createdAt: singleMovie.createdAt.toDateString(),
+  };
+  const changedCommentsForDate = changedSingleMovie.comments.map((comment) => {
+    return { ...comment._doc, time: comment.time.toDateString() };
+  });
+  // console.log(changedCommentsForDate);
+  let existingComment;
+  if (req.user) {
+    existingComment = changedSingleMovie.comments.find(
+      (comment) => comment.userId.toString() === user._id.toString()
+    );
+  }
+  // console.log(existingComment);
+  res.render("movies/movie-description", {
+    movie: changedSingleMovie,
+    user: req.user,
+    comments: changedCommentsForDate,
+    existingComment: existingComment,
+    editing: movieEditing,
+  });
+};
+
+exports.postAddComment = async (req, res, next) => {
+  if (!req.user) {
+    return res.redirect("/admin/login");
+  }
+  const movieId = req.body.movieId;
+  const comment = req.body.comment;
+  const rating = 3;
+  const movie = await Movie.findById(movieId);
+  if (movie.comments.length === 0) {
+    movie.originalRating += rating;
+  } else {
+    let originalRating = movie.originalRating;
+    const newOriginalRating = ((originalRating + rating) / 2).toFixed(2);
+    movie.originalRating = newOriginalRating;
+  }
+  console.log(movie.originalRating);
+  const movieComments = [...movie.comments];
+  const newComment = {
+    name: req.user.name,
+    comment: comment,
+    time: new Date(),
+    rating: rating,
+    userId: req.user._id,
+  };
+  movieComments.push(newComment);
+  movie.comments = movieComments;
+  await movie.save();
+  res.redirect(`/movie/${movie._id}`);
+};
+
+exports.postUpdateComment = async (req, res, next) => {
+  if (!req.user) {
+    return res.redirect("/admin/login");
+  }
+  const user = req.user;
+  const movieId = req.body.movieId;
+  const comment = req.body.comment;
+  const rating = 3;
+  let totalRating = 0;
+  const movie = await Movie.findById(movieId);
+  for (let comment of movie.comments) {
+    totalRating += comment.rating;
+  }
+  const existingComment = movie.comments.find(
+    (comment) => comment.userId.toString() === user._id.toString()
+  );
+  const newComment = {
+    name: req.user.name,
+    comment: comment,
+    time: new Date(),
+    rating: rating,
+    userId: req.user._id,
+  };
+  let newCommentsArray;
+  let newTotalRating;
+  if (existingComment) {
+    newCommentsArray = movie.comments.filter(
+      (comment) =>
+        comment.userId.toString() !== existingComment.userId.toString()
+    );
+    newTotalRating = totalRating - existingComment.rating + rating;
+    newCommentsArray.push(newComment);
+  }
+  const newRating = newTotalRating / newCommentsArray.length;
+  movie.originalRating = newRating;
+  movie.comments = newCommentsArray;
+  await movie.save();
+  res.redirect(`/movie/${movie._id}`);
+};
+
 exports.addMovies = async (req, res, next) => {
   const errors = validationResult(req);
   if (!req.user) {
@@ -137,7 +241,6 @@ exports.addMovies = async (req, res, next) => {
     imageUrl: imageUrl.path,
     description: description,
     originalRating: 0,
-    ratingData: [],
     user: userId,
     category: category,
     comments: [],

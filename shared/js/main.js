@@ -20,7 +20,6 @@ if (main) {
     dropdown.classList.remove("open");
     specialDropdown.classList.remove("open");
   });
-  console.log(mainImageContainer);
 }
 
 if (userContainer) {
@@ -52,7 +51,9 @@ function showImage(n) {
   mainImageContainer[imageIndex - 1].classList.add("slideshow-open");
 }
 
-showImage(imageIndex);
+if (mainImageContainer.length > 0) {
+  showImage(imageIndex);
+}
 
 function nextImage(n) {
   imageIndex += n;

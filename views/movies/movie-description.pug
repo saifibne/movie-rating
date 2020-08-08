@@ -1,0 +1,81 @@
+extends ../layout/common
+
+block style
+    link(rel="stylesheet", href="/css/movie-detail.css")
+
+block content
+    div.movie-details__container
+        div.movie-image__container
+            img(src=`/${movie.imageUrl}`)
+        div.movie-detail__divider
+        div.movie-description__container
+            div.movie-description.movie-description__title
+                h4 Title:
+                p.capital-case #{movie.title}
+            div.movie-description.movie-description__description
+                h4 Description:
+                p #{movie.description}
+            div.movie-description.movie-description__category
+                h4 Category:
+                p.capital-case #{movie.category}
+            div.movie-description.movie-description__time
+                h4 Created At:
+                p #{movie.createdAt}
+            div.movie-description.mvoie-description__added
+                h4 Added By:
+                p.capital-case  #{movie.user.name}
+    div.movie-add-comment__container
+        if  user && existingComment && editing
+            form(method="POST", action="/update-comment")
+                div.comment-header
+                    div.commenter-name
+                        h6.capital-case Comment By: #{user.name}
+                div.comment-body
+                    div.create-comment
+                        label(for="inputComment") Comment
+                        textarea(rows=3, name="comment", id="inputComment") #{existingComment.comment}
+                div.comment-action
+                    button.comment-action__button(type="submit") Update Comment
+                    a(href=`/movie/${movie._id}`)
+                        button.comment-action__button(type="button") Cancel
+                input(type="hidden", name="movieId", value=movie._id)
+                input(type="hidden", name="_csrf", value=_csrf)
+        else if user && existingComment
+                div.comment-body
+                    div.existing-comment
+                        p.comment-update__title Your Comment:
+                        p.comment-update__text #{existingComment.comment}
+                div.comment-action
+                    a(href=`/movie/${movie._id}?editing=true`)
+                        button.comment-action__button(type="submit") Update Comment
+        else if  user
+            form(method="POST", action="/add-comment")
+                div.comment-header
+                    div.commenter-name
+                        h6.capital-case Comment By: #{user.name}
+                div.comment-body
+                    div.create-comment
+                        label(for="inputComment") Comment
+                        textarea(rows=3, name="comment", id="inputComment")
+                div.comment-action
+                    button.comment-action__button(type="submit") Add Comment
+                input(type="hidden", name="movieId", value=movie._id)
+                input(type="hidden", name="_csrf", value=_csrf)
+        else
+            p.comment-login__message
+                | Please
+                |
+                a.comment-login__anchor(href="/admin/login") login
+                |
+                | to leave a rating for this movie...
+    if comments.length > 0
+        div.movie-comments__container
+            each comment in comments
+                div.single-comment
+                    div.comments-header.commenter-name
+                        h6.capital-case #{comment.name}
+                        div.header-sub__content
+                            i.fas.fa-calendar()
+                            p #{comment.time}
+                    div.comments-body
+                        p #{comment.comment}

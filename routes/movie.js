@@ -7,7 +7,8 @@ const util = require("../utils/is-auth");
 const router = express.Router();
 
 router.get("/", movieController.getMovies);
-router.get("/movie/:movieCategory", movieController.getMovieByCategory);
+router.get("/movie/:movieId", movieController.getSingleMovie);
+router.get("/movies/:movieCategory", movieController.getMovieByCategory);
 router.get("/admin-movies", util.isAuth, movieController.adminMovies);
 router.get("/add-movie", util.isAuth, movieController.getAddMovie);
 router.get("/add-movie/:movieId", util.isAuth, movieController.getEditMovie);
@@ -51,6 +52,8 @@ router.post(
   ],
   movieController.postEditMovie
 );
+router.post("/add-comment", movieController.postAddComment);
+router.post("/update-comment", movieController.postUpdateComment);
 router.delete("/delete/:movieId", util.isAuth, movieController.postDeleteMovie);
 
 module.exports = router;
