@@ -153,7 +153,7 @@ exports.postAddComment = async (req, res, next) => {
     return res.redirect(`/movie/${movieId}`);
   }
   const comment = req.body.comment;
-  const rating = 4;
+  const rating = +req.body.rating;
   const movie = await Movie.findById(movieId);
   if (!movie) {
     const error = new Error("could not find movie.");

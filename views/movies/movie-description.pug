@@ -79,6 +79,18 @@ block content
                     div.comment-header
                         div.commenter-name
                             h6.capital-case Comment By: #{user.name}
+                        div.commenter-rating
+                            span.star-cb-group
+                                input(type="radio", name="rating", id="rating-5", value="5")
+                                label(for="rating-5") 5
+                                input(type="radio", name="rating", id="rating-4", value="4")
+                                label(for="rating-4") 4
+                                input(type="radio", name="rating", id="rating-3", value="3")
+                                label(for="rating-3") 3
+                                input(type="radio", name="rating", id="rating-2", value="2")
+                                label(for="rating-2") 2
+                                input(type="radio", name="rating", id="rating-1", value="1")
+                                label(for="rating-1") 1
                     div.comment-body
                         div.create-comment
                             label(for="inputComment") Comment
