@@ -8,6 +8,9 @@ const option3 = document.querySelector("#option3");
 const userContainer = document.querySelector(".user__container");
 const specialDropdown = document.querySelector(".special-dropdown");
 const mainImageContainer = document.querySelectorAll(".main-image__container");
+const movieRatingValue = document.querySelector("#movieRatingValue");
+const commentRatingValues = document.querySelectorAll(".comment-rating__value");
+const movieRatingStars = document.querySelectorAll(".movie-rating__star");
 
 let imageIndex = 1;
 
@@ -37,6 +40,27 @@ if (category) {
     option2.setAttribute("selected", "selected");
   } else if (option3.value === category.value) {
     option3.setAttribute("selected", "selected");
+  }
+}
+
+if (movieRatingStars) {
+  for (let singleStar of movieRatingStars) {
+    if (singleStar.value <= +movieRatingValue.value) {
+      singleStar.classList.add("rating__star-active");
+    }
+  }
+}
+
+if (commentRatingValues) {
+  for (let commentRatingValue of commentRatingValues) {
+    const commentRatingStars = commentRatingValue.parentNode.querySelectorAll(
+      ".comment-rating__star"
+    );
+    for (let singleStar of commentRatingStars) {
+      if (singleStar.value <= +commentRatingValue.value) {
+        singleStar.classList.add("rating__star-active");
+      }
+    }
   }
 }
 

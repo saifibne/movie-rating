@@ -29,6 +29,21 @@ block content
                 div.movie-description.mvoie-description__added
                     h4 Added By:
                     p.capital-case  #{movie.user.name}
+                input(type="hidden", id="movieRatingValue", value=movie.originalRating)
+                div.movie-description
+                    h4 Rating:
+                    div.rating__stars
+                        ul.rating-ul
+                            li(class="movie-rating__star", value=1)
+                                i.fas.fa-star()
+                            li(class="movie-rating__star", value=2)
+                                i.fas.fa-star()
+                            li(class="movie-rating__star", value=3)
+                                i.fas.fa-star()
+                            li(class="movie-rating__star", value=4)
+                                i.fas.fa-star()
+                            li(class="movie-rating__star", value=5)
+                                i.fas.fa-star()
         div.movie-add-comment__container
             if  user && existingComment && editing
                 form(method="POST", action="/update-comment")
@@ -53,6 +68,12 @@ block content
                 div.comment-action
                     a(href=`/movie/${movie._id}?editing=true`)
                         button.comment-action__button(type="submit") Update Comment
+                    form(method="POST", action="/delete-comment")
+                        button.comment-action__button.delete-comment(type="submit") Delete Comment
+                        input(type="hidden", name="movieId", value=movie._id)
+                        input(type="hidden", name="commentId", value=existingComment._id)
+                        input(type="hidden", name="rating", value=existingComment.rating)
+                        input(type="hidden", name="_csrf", value=_csrf)
             else if  user
                 form(method="POST", action="/add-comment")
                     div.comment-header
@@ -82,5 +103,18 @@ block content
                             div.header-sub__content
                                 i.fas.fa-calendar()
                                 p #{comment.time}
+                            div.rating__stars.comment-rating__stars
+                                ul.rating-ul
+                                    li(class="comment-rating__star", value=1)
+                                        i.fas.fa-star()
+                                    li(class="comment-rating__star", value=2)
+                                        i.fas.fa-star()
+                                    li(class="comment-rating__star", value=3)
+                                        i.fas.fa-star()
+                                    li(class="comment-rating__star", value=4)
+                                        i.fas.fa-star()
+                                    li(class="comment-rating__star", value=5)
+                                        i.fas.fa-star()
                         div.comments-body
                             p #{comment.comment}
+                        input.comment-rating__value(type="hidden", value=comment.rating)

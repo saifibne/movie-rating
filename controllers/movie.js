@@ -120,6 +120,7 @@ exports.getSingleMovie = async (req, res, next) => {
   }
   const changedSingleMovie = {
     ...singleMovie._doc,
+    originalRating: Math.round(singleMovie.originalRating),
     createdAt: singleMovie.createdAt.toDateString(),
   };
   const changedCommentsForDate = changedSingleMovie.comments.map((comment) => {
@@ -152,7 +153,7 @@ exports.postAddComment = async (req, res, next) => {
     return res.redirect(`/movie/${movieId}`);
   }
   const comment = req.body.comment;
-  const rating = 3;
+  const rating = 4;
   const movie = await Movie.findById(movieId);
   if (!movie) {
     const error = new Error("could not find movie.");
@@ -166,7 +167,6 @@ exports.postAddComment = async (req, res, next) => {
     const newOriginalRating = ((originalRating + rating) / 2).toFixed(2);
     movie.originalRating = newOriginalRating;
   }
-  console.log(movie.originalRating);
   const movieComments = [...movie.comments];
   const newComment = {
     name: req.user.name,
@@ -193,7 +193,7 @@ exports.postUpdateComment = async (req, res, next) => {
   }
   const user = req.user;
   const comment = req.body.comment;
-  const rating = 3;
+  const rating = 2;
   let totalRating = 0;
   const movie = await Movie.findById(movieId);
   if (!movie) {
@@ -229,6 +229,39 @@ exports.postUpdateComment = async (req, res, next) => {
   movie.comments = newCommentsArray;
   await movie.save();
   res.redirect(`/movie/${movie._id}`);
+};
+
+exports.postDeleteComment = async (req, res, next) => {
+  if (!req.user) {
+    return res.redirect("/admin/login");
+  }
+  const movieId = req.body.movieId;
+  const commentId = req.body.commentId;
+  const rating = req.body.rating;
+  let totalRating = 0;
+  let newOriginalRating;
+  const movie = await Movie.findById(movieId);
+  if (!movie) {
+    const error = new Error("could not find movie.");
+    error.statusCode = 500;
+    throw error;
+  }
+  for (let comment of movie.comments) {
+    totalRating += comment.rating;
+  }
+  const newTotalRating = totalRating - rating;
+  const newCommentsArray = movie.comments.filter(
+    (comment) => comment._id.toString() !== commentId.toString()
+  );
+  if (newCommentsArray.length > 0) {
+    newOriginalRating = newTotalRating / newCommentsArray.length;
+  } else {
+    newOriginalRating = newTotalRating;
+  }
+  movie.originalRating = newOriginalRating;
+  movie.comments = newCommentsArray;
+  await movie.save();
+  res.redirect(`/movie/${movieId}`);
 };
 
 exports.addMovies = async (req, res, next) => {

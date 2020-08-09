@@ -82,6 +82,7 @@ router.post(
   ],
   movieController.postUpdateComment
 );
+router.post("/delete-comment", movieController.postDeleteComment);
 router.delete("/delete/:movieId", util.isAuth, movieController.postDeleteMovie);
 
 module.exports = router;

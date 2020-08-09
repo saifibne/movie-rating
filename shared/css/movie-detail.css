@@ -50,6 +50,24 @@ body {
   color: #44454e;
   margin-left: 4px;
 }
+.rating__stars {
+  margin-left: 4px;
+  color: #44454e;
+}
+.rating__star-active {
+  color: #fbc627;
+}
+.rating-ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+.comment-rating__stars {
+  font-size: 13px;
+  margin-left: auto;
+  margin-right: 10px;
+}
 .movie-add-comment__container,
 .movie-comments__container {
   width: 90%;
@@ -92,6 +110,7 @@ body {
 .comment-action {
   width: max-content;
   margin: auto;
+  display: flex;
 }
 .comment-action__button {
   padding: 8px;
@@ -106,6 +125,12 @@ body {
 }
 .comment-action button:hover {
   background-color: #616161;
+}
+.delete-comment {
+  background-color: #e12717;
+}
+.delete-comment:hover {
+  background-color: #c40000 !important;
 }
 .movie-comments__container {
   margin-top: 30px;
