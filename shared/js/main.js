@@ -11,6 +11,14 @@ const mainImageContainer = document.querySelectorAll(".main-image__container");
 const movieRatingValue = document.querySelector("#movieRatingValue");
 const commentRatingValues = document.querySelectorAll(".comment-rating__value");
 const movieRatingStars = document.querySelectorAll(".movie-rating__star");
+const existingCommentRating = document.querySelector("#existingCommentRating");
+const searchButton = document.querySelector(".search-button");
+let existingCommentStars;
+if (existingCommentRating) {
+  existingCommentStars = existingCommentRating.parentNode.querySelectorAll(
+    "[name=rating]"
+  );
+}
 
 let imageIndex = 1;
 
@@ -19,6 +27,7 @@ dropdownParent.addEventListener("click", () => {
 });
 
 if (main) {
+  // console.log(existingCommentStars);
   main.addEventListener("click", () => {
     dropdown.classList.remove("open");
     if (specialDropdown) {
@@ -61,6 +70,22 @@ if (commentRatingValues) {
         singleStar.classList.add("rating__star-active");
       }
     }
+  }
+}
+
+if (existingCommentRating) {
+  for (let star of existingCommentStars) {
+    if (star.value === existingCommentRating.value.toString()) {
+      star.setAttribute("checked", "checked");
+    }
+  }
+}
+
+function searchField(text) {
+  if (text.value.length === 0) {
+    searchButton.disabled = true;
+  } else {
+    searchButton.disabled = false;
   }
 }
 

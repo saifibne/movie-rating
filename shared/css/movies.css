@@ -97,3 +97,14 @@
 .slideshow-open {
   display: block;
 }
+.movie-error {
+  width: max-content;
+  margin: 20px auto;
+  border: 1px solid red;
+  background-color: #f1adad;
+  border-radius: 0.35rem;
+}
+.movie-error p {
+  margin: 0;
+  padding: 20px;
+}

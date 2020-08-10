@@ -16,6 +16,9 @@ block content
                 i(class="fas fa-arrow-right fa-2x")
             div.arrow__container.arrow__container-left(onclick="nextImage(-1)")
                 i(class="fas fa-arrow-left fa-2x")
+        if movies.length === 0
+            div.movie-error
+                p Sorry could not find any movies.
         div.cards-container
             each movie in movies
                 a.movie-anchor(href=`/movie/${movie._id}`)

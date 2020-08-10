@@ -45,11 +45,15 @@ body {
   display: flex;
   margin: 0 10px;
   padding: 0;
+  align-items: center;
 }
 .main-nav__item--side a {
   text-decoration: none;
   font-size: 18px;
   color: white;
+}
+.main-nav__item--side-search {
+  margin-right: 20px;
 }
 .user__container {
   width: 35px;
@@ -106,6 +110,29 @@ body {
 }
 .dropdown__item a:hover {
   background-color: white;
+}
+.search-input {
+  height: 30px;
+  width: 250px;
+  border-top-left-radius: 0.35rem;
+  border-bottom-left-radius: 0.35rem;
+  border: none;
+}
+.search-input:focus,
+.search-button:focus {
+  outline: none;
+}
+.search-button {
+  height: 30px;
+  width: 30px;
+  border-top-right-radius: 0.35rem;
+  border-bottom-right-radius: 0.35rem;
+  border: none;
+  cursor: pointer;
+  background-color: #cccccc;
+}
+.search-button:hover {
+  background-color: #bbbbbb;
 }
 .error-container {
   width: 350px;

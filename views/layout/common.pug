@@ -31,6 +31,12 @@ html(lang="en")
                                 a(href="/add-movie") Add Movie
                 .main-nav__side
                     ul.main-nav__items--side
+                        li.main-nav__item--side-search
+                            form(method="POST", action="/movie/search")
+                                input.search-input(type="text", name="searchMovie", onkeyup="searchField(this)")
+                                button.search-button(type="submit", disabled)
+                                    i.fas.fa-search()
+                                input(type="hidden", name="_csrf", value=_csrf)
                         if isLoggedIn
                             li.main-nav__item--side.dropdown-parent
                                 div.user__container

@@ -13,6 +13,16 @@ router.get("/admin-movies", util.isAuth, movieController.adminMovies);
 router.get("/add-movie", util.isAuth, movieController.getAddMovie);
 router.get("/add-movie/:movieId", util.isAuth, movieController.getEditMovie);
 router.post(
+  "/movie/search",
+  [
+    body("searchMovie", "Input field should not be empty.")
+      .not()
+      .isEmpty()
+      .trim(),
+  ],
+  movieController.postSearchMovies
+);
+router.post(
   "/add-movie",
   util.isAuth,
   [

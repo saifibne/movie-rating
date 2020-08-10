@@ -193,7 +193,7 @@ exports.postUpdateComment = async (req, res, next) => {
   }
   const user = req.user;
   const comment = req.body.comment;
-  const rating = 2;
+  const rating = +req.body.rating;
   let totalRating = 0;
   const movie = await Movie.findById(movieId);
   if (!movie) {
@@ -357,5 +357,31 @@ exports.postDeleteMovie = async (req, res, next) => {
   await Movie.findByIdAndRemove(movieId);
   res.status(200).json({
     message: "movie deleted",
+  });
+};
+
+exports.postSearchMovies = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.redirect(req.headers.referer);
+  }
+  const movieName = req.body.searchMovie.toLowerCase();
+  const movies = await Movie.find({ title: movieName }).populate("user");
+  if (!movies) {
+    const error = new Error("Can't find the movie from the database.");
+    error.statusCode = 500;
+    throw error;
+  }
+  const changedMovies = movies.map((movie) => {
+    const percentageRating = Math.round((movie.originalRating / 5) * 100);
+    const totalUser = movie.comments.length;
+    return {
+      ...movie._doc,
+      ratingInPercentage: percentageRating,
+      totalUser: totalUser,
+    };
+  });
+  res.render("movies/index", {
+    movies: changedMovies,
   });
 };
