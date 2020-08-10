@@ -6,6 +6,12 @@ block style
 
 block content
     main.main
+        div.movie-delete__modal
+            div.modal-title
+                p Do you want to delete?
+            div.modal-action
+                button(type="button") Yes
+                button(type="button") No
         div.cards-container
             each movie in movies
                 div.card

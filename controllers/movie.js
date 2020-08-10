@@ -5,7 +5,7 @@ const Movie = require("../model/movie");
 const utils = require("../utils/utils");
 
 exports.getMovies = async (req, res, next) => {
-  const movies = await Movie.find().populate("user");
+  const movies = await Movie.find().populate("user").sort({ createdAt: -1 });
   if (!movies) {
     const error = new Error("Movies can't be found from database");
     error.statusCode = 500;
@@ -38,7 +38,17 @@ exports.getEditMovie = async (req, res, next) => {
   const movieId = req.params.movieId;
   const editing = req.query.editing;
   const flashMessage = req.flash("message");
-  const singleMovie = await Movie.findById(movieId);
+  let singleMovie;
+  try {
+    singleMovie = await Movie.findById(movieId);
+  } catch (error) {
+    return next(error);
+  }
+  if (!singleMovie) {
+    const error = new Error("Could not find movie.");
+    error.statusCode = 500;
+    throw error;
+  }
   res.render("movies/add-movie", {
     editing: editing,
     movie: singleMovie,
@@ -112,7 +122,12 @@ exports.getSingleMovie = async (req, res, next) => {
   const movieEditing = req.query.editing;
   const user = req.user;
   const errorMessage = req.flash("message");
-  const singleMovie = await Movie.findById(movieId).populate("user");
+  let singleMovie;
+  try {
+    singleMovie = await Movie.findById(movieId).populate("user");
+  } catch (error) {
+    return next(error);
+  }
   if (!singleMovie) {
     const error = new Error("could not find single movie.");
     error.statusCode = 500;
@@ -175,7 +190,7 @@ exports.postAddComment = async (req, res, next) => {
     rating: rating,
     userId: req.user._id,
   };
-  movieComments.push(newComment);
+  movieComments.unshift(newComment);
   movie.comments = movieComments;
   await movie.save();
   res.redirect(`/movie/${movie._id}`);
@@ -222,7 +237,7 @@ exports.postUpdateComment = async (req, res, next) => {
         comment.userId.toString() !== existingComment.userId.toString()
     );
     newTotalRating = totalRating - existingComment.rating + rating;
-    newCommentsArray.push(newComment);
+    newCommentsArray.unshift(newComment);
   }
   const newRating = newTotalRating / newCommentsArray.length;
   movie.originalRating = newRating;

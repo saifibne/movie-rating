@@ -1,3 +1,22 @@
+.movie-delete__modal {
+  border: 1px solid black;
+  width: max-content;
+  padding: 20px;
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  background-color: white;
+  visibility: hidden;
+}
+.movie-delete__modal-show {
+  visibility: visible;
+}
+.modal-title p {
+  margin: 0;
+}
+.modal-action button {
+  cursor: pointer;
+}
 .card__body {
   padding: 4px 10px;
   text-align: center;

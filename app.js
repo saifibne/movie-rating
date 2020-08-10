@@ -11,6 +11,7 @@ const csrf = require("csurf");
 const movieRoute = require("./routes/movie");
 const userRoute = require("./routes/user");
 const User = require("./model/user");
+const errorController = require("./controllers/error");
 
 const app = express();
 const sessionStore = new MongoStore({
@@ -95,13 +96,16 @@ app.use((req, res, next) => {
 
 app.use(movieRoute);
 app.use("/admin", userRoute);
+app.use(errorController.getErrorPage);
 
 app.use((error, req, res, next) => {
   if (error) {
     const message = error.message;
     const statusCode = error.statusCode || 500;
     console.log(message);
-    res.render("error/500");
+    res
+      .status(404)
+      .sendFile(path.join(__dirname, "views", "error", "404.html"));
   }
 });
 
