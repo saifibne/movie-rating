@@ -10,8 +10,8 @@ block content
                 div.modal-title
                     p Do you really want to delete?
                 div.modal-action
-                    button.modal-accept__button(type="submit", name="deleteButton", onclick="deleteFunction(this)") Yes
-                    button.modal-decline__button(type="button", onclick="modalClose()") No
+                    button.modal-accept__button(type="submit", name="deleteButton", onclick="deleteComment()") Delete
+                    button.modal-decline__button(type="button", onclick="modalClose()") Cancel
         if msg
             div.error-container
                 h3.error-title There was a problem
@@ -88,12 +88,11 @@ block content
                 div.comment-action
                     a(href=`/movie/${movie._id}?editing=true`)
                         button.comment-action__button(type="submit") Update Comment
-                    form(method="POST", action="/delete-comment")
-                        button.comment-action__button.delete-comment(type="submit") Delete Comment
-                        input(type="hidden", name="movieId", value=movie._id)
-                        input(type="hidden", name="commentId", value=existingComment._id)
-                        input(type="hidden", name="rating", value=existingComment.rating)
-                        input(type="hidden", name="_csrf", value=_csrf)
+                    button.comment-action__button.delete-comment(type="button", onclick="deleteCommentValue(this)") Delete Comment
+                    input(type="hidden", name="movieId", value=movie._id)
+                    input(type="hidden", name="commentId", value=existingComment._id)
+                    input(type="hidden", name="rating", value=existingComment.rating)
+                    input(type="hidden", name="_csrf", value=_csrf)
             else if  user
                 form(method="POST", action="/add-comment")
                     div.comment-header

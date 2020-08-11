@@ -276,7 +276,9 @@ exports.postDeleteComment = async (req, res, next) => {
   movie.originalRating = newOriginalRating;
   movie.comments = newCommentsArray;
   await movie.save();
-  res.redirect(`/movie/${movieId}`);
+  res.status(200).json({
+    message: "Comment deleted successfully.",
+  });
 };
 
 exports.addMovies = async (req, res, next) => {

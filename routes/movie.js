@@ -74,6 +74,7 @@ router.post(
       .isEmpty()
       .trim()
       .isLength({ min: 6 }),
+    body("rating", "Rating field should not be empty").not().isEmpty(),
   ],
   movieController.postAddComment
 );
