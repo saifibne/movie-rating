@@ -6,12 +6,13 @@ block style
 
 block content
     main.main
+        div.backdrop
         div.movie-delete__modal
             div.modal-title
-                p Do you want to delete?
+                p Do you really want to delete?
             div.modal-action
-                button(type="button") Yes
-                button(type="button") No
+                button.modal-accept__button(type="submit", name="deleteButton", onclick="deleteFunction(this)") Yes
+                button.modal-decline__button(type="button", onclick="modalClose()") No
         div.cards-container
             each movie in movies
                 div.card
@@ -26,4 +27,4 @@ block content
                             div.button__holder
                                 input(type="hidden", name="movieId", value=movie._id)
                                 input(type="hidden", name="_csrf", value=_csrf)
-                                button.card__btn.btn-danger(type="submit", name="deleteButton", onclick="deleteFunction(this)") Delete
+                                button.card__btn.btn-danger(type="submit", onclick="getValues(this)") Delete

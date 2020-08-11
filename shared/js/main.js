@@ -13,6 +13,8 @@ const commentRatingValues = document.querySelectorAll(".comment-rating__value");
 const movieRatingStars = document.querySelectorAll(".movie-rating__star");
 const existingCommentRating = document.querySelector("#existingCommentRating");
 const searchButton = document.querySelector(".search-button");
+const cardButton = document.querySelector(".card__btn");
+// const movieDeleteModal = document.querySelector(".movie-delete__modal");
 let existingCommentStars;
 if (existingCommentRating) {
   existingCommentStars = existingCommentRating.parentNode.querySelectorAll(

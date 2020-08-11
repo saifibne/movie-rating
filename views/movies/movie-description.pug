@@ -5,6 +5,13 @@ block style
 
 block content
     main.main
+        div.backdrop
+            div.movie-delete__modal
+                div.modal-title
+                    p Do you really want to delete?
+                div.modal-action
+                    button.modal-accept__button(type="submit", name="deleteButton", onclick="deleteFunction(this)") Yes
+                    button.modal-decline__button(type="button", onclick="modalClose()") No
         if msg
             div.error-container
                 h3.error-title There was a problem
