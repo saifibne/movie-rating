@@ -2,11 +2,18 @@
 * {
   box-sizing: border-box;
 }
+html {
+  max-width: 2000px;
+  margin: auto;
+  background-color: #cccccc;
+}
 body {
   font-family: "Be Vietnam", sans-serif;
   margin: 0;
   display: grid;
   min-height: 100vh;
+  width: 100%;
+  background-color: white;
   grid-template-rows: 54px auto fit-content(53px);
   grid-template-areas:
     "header"
@@ -293,7 +300,7 @@ footer {
 }
 .pagination {
   width: max-content;
-  margin: 1rem auto;
+  margin: 20px auto;
 }
 .pagination a {
   display: inline-block;
