@@ -36,3 +36,20 @@ block content
                                 p.capital-case #{movie.title}
                             div.card__text
                                 p.capital-case Added By: #{movie.user.name}
+        div.pagination
+            if currentPage !== 1
+                a(href = `/?page=${prevPage}`)
+                    i.fas.fa-angle-double-left()
+            if currentPage !== 1 && prevPage !== 1
+                a(href = `/?page=1`, id="firstPage") 1
+            if hasPrevPage
+                a(href=`/?page=${prevPage}`, id="prevPage") #{prevPage}
+            if currentPage
+                a.pagination-current(href=`/?page=${currentPage}`, id="currentPage") #{currentPage}
+            if hasNextPage
+                a(href=`/?page=${nextPage}`, id="nextPage") #{nextPage}
+            if lastPage !== nextPage && lastPage !== currentPage
+                a(href=`/?page=${lastPage}`, id="lastPage") #{lastPage}
+            if currentPage < lastPage
+                a(href = `/?page=${nextPage}`)
+                    i.fas.fa-angle-double-right()

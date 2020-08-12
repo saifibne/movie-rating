@@ -5,7 +5,27 @@
 body {
   font-family: "Be Vietnam", sans-serif;
   margin: 0;
-  /*background: #ccc;*/
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: 54px auto fit-content(53px);
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  grid-area: header;
+}
+main {
+  grid-area: main;
+}
+footer {
+  grid-area: footer;
 }
 .backdrop {
   position: fixed;
@@ -15,10 +35,10 @@ body {
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
-  display: none;
+  visibility: hidden;
 }
 .backdrop-show {
-  display: block;
+  visibility: visible;
 }
 .main-header {
   display: flex;
@@ -86,14 +106,13 @@ body {
   padding: 13.5px 10px;
   cursor: pointer;
 }
-.dropdown-parent:hover .dropdown {
-  display: block;
+.dropdown-parent:hover .dropdown__items {
+  max-height: 400px;
 }
 .dropdown {
   position: absolute;
   min-width: 100px;
   top: 40px;
-  display: none;
   z-index: 100;
 }
 .special-dropdown {
@@ -101,7 +120,6 @@ body {
   top: 45px;
   position: absolute;
   min-width: 100px;
-  display: none;
   z-index: 100;
 }
 .dropdown__items {
@@ -109,6 +127,21 @@ body {
   margin: 0;
   background: #ecebeb;
   padding: 0;
+  height: auto;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 300ms linear 0ms;
+  text-align: center;
+}
+.special-dropdown__items {
+  list-style: none;
+  margin: 0;
+  background: #ecebeb;
+  padding: 0;
+  height: auto;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 300ms linear 0ms;
   text-align: center;
 }
 .dropdown__item {
@@ -172,7 +205,6 @@ body {
   color: #111111;
 }
 .footer-content {
-  margin-top: 2rem;
   background-color: #404040;
 }
 .footer__items {
@@ -195,7 +227,7 @@ body {
   text-transform: capitalize;
 }
 .open {
-  display: block;
+  max-height: 400px;
 }
 .movie-delete__modal {
   border: 1px solid #c9cadb;
@@ -258,4 +290,30 @@ body {
 }
 .modal-accept__button:hover {
   background-color: #c40000;
+}
+.pagination {
+  width: max-content;
+  margin: 1rem auto;
+}
+.pagination a {
+  display: inline-block;
+  text-decoration: none;
+  color: #3a3b45;
+  border: 1px solid #5e5e5e;
+  margin: 0 4px;
+  font-size: 15px;
+  height: 32px;
+  width: 32px;
+  text-align: center;
+  padding: 4px;
+  line-height: 1rem;
+  border-radius: 50%;
+}
+.pagination a:active {
+  background-color: #5e5e5e;
+  color: white !important;
+}
+.pagination-current {
+  background-color: #5e5e5e;
+  color: white !important;
 }

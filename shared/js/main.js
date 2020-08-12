@@ -1,12 +1,12 @@
 const dropdownParent = document.querySelector(".dropdown-parent");
-const dropdown = document.querySelector(".dropdown");
+const dropdownItems = document.querySelector(".dropdown__items");
 const main = document.querySelector(".main");
 const category = document.querySelector("#category");
 const option1 = document.querySelector("#option1");
 const option2 = document.querySelector("#option2");
 const option3 = document.querySelector("#option3");
 const userContainer = document.querySelector(".user__container");
-const specialDropdown = document.querySelector(".special-dropdown");
+const specialDropdownItems = document.querySelector(".special-dropdown__items");
 const mainImageContainer = document.querySelectorAll(".main-image__container");
 const movieRatingValue = document.querySelector("#movieRatingValue");
 const commentRatingValues = document.querySelectorAll(".comment-rating__value");
@@ -25,22 +25,22 @@ if (existingCommentRating) {
 let imageIndex = 1;
 
 dropdownParent.addEventListener("click", () => {
-  dropdown.classList.add("open");
+  dropdownItems.classList.toggle("open");
 });
 
 if (main) {
   // console.log(existingCommentStars);
   main.addEventListener("click", () => {
-    dropdown.classList.remove("open");
-    if (specialDropdown) {
-      specialDropdown.classList.remove("open");
+    dropdownItems.classList.remove("open");
+    if (specialDropdownItems) {
+      specialDropdownItems.classList.remove("open");
     }
   });
 }
 
 if (userContainer) {
   userContainer.addEventListener("click", () => {
-    specialDropdown.classList.add("open");
+    specialDropdownItems.classList.add("open");
   });
 }
 

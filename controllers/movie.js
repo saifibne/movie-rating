@@ -5,7 +5,17 @@ const Movie = require("../model/movie");
 const utils = require("../utils/utils");
 
 exports.getMovies = async (req, res, next) => {
-  const movies = await Movie.find().populate("user").sort({ createdAt: -1 });
+  let currentPage = req.query.page || 1;
+  const ITEMS_PER_PAGE = 2;
+  if (currentPage < 1) {
+    currentPage = 1;
+  }
+  const moviesCount = await Movie.find().countDocuments();
+  const movies = await Movie.find()
+    .populate("user")
+    .sort({ createdAt: -1 })
+    .skip((currentPage - 1) * ITEMS_PER_PAGE)
+    .limit(ITEMS_PER_PAGE);
   if (!movies) {
     const error = new Error("Movies can't be found from database");
     error.statusCode = 500;
@@ -20,8 +30,16 @@ exports.getMovies = async (req, res, next) => {
       totalUser: totalUser,
     };
   });
+  const lastPage = Math.ceil(moviesCount / ITEMS_PER_PAGE);
   res.render("movies/index", {
     movies: changedMovies,
+    totalMovies: moviesCount,
+    currentPage: +currentPage,
+    nextPage: +currentPage + 1,
+    hasNextPage: currentPage * ITEMS_PER_PAGE < moviesCount,
+    prevPage: +currentPage - 1,
+    hasPrevPage: currentPage > 1,
+    lastPage: lastPage,
   });
 };
 
