@@ -7,6 +7,8 @@ const MongoStore = require("connect-mongo")(session);
 const flash = require("connect-flash");
 const multer = require("multer");
 const csrf = require("csurf");
+const helmet = require("helmet");
+const compression = require("compression");
 
 const movieRoute = require("./routes/movie");
 const userRoute = require("./routes/user");
@@ -54,6 +56,8 @@ app.use(
     path.join(__dirname, "node_modules", "@fortawesome", "fontawesome-free")
   )
 );
+
+app.use(compression());
 
 app.use(
   multer({ storage: storage, fileFilter: fileFilter }).single("imageUrl")

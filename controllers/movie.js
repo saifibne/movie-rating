@@ -32,6 +32,7 @@ exports.getMovies = async (req, res, next) => {
   });
   const lastPage = Math.ceil(moviesCount / ITEMS_PER_PAGE);
   res.render("movies/index", {
+    title: "Home",
     movies: changedMovies,
     totalMovies: moviesCount,
     currentPage: +currentPage,
@@ -40,6 +41,7 @@ exports.getMovies = async (req, res, next) => {
     prevPage: +currentPage - 1,
     hasPrevPage: currentPage > 1,
     lastPage: lastPage,
+    pagination: true,
   });
 };
 
@@ -47,6 +49,7 @@ exports.getAddMovie = (req, res, next) => {
   const editing = req.query.editing;
   const flashMessage = req.flash("message");
   res.render("movies/add-movie", {
+    title: "Add-Movie",
     editing: editing,
     flashMessage: flashMessage[0],
   });
@@ -68,6 +71,7 @@ exports.getEditMovie = async (req, res, next) => {
     throw error;
   }
   res.render("movies/add-movie", {
+    title: "Edit-Movie",
     editing: editing,
     movie: singleMovie,
     flashMessage: flashMessage[0],
@@ -131,6 +135,7 @@ exports.getMovieByCategory = async (req, res, next) => {
     };
   });
   res.render("movies/index", {
+    title: movieCategory,
     movies: changedMovies,
   });
 };
@@ -166,6 +171,7 @@ exports.getSingleMovie = async (req, res, next) => {
     );
   }
   res.render("movies/movie-description", {
+    title: "Movie-Description",
     movie: changedSingleMovie,
     user: req.user,
     comments: changedCommentsForDate,
@@ -299,7 +305,7 @@ exports.postDeleteComment = async (req, res, next) => {
   });
 };
 
-exports.addMovies = async (req, res, next) => {
+exports.postAddMovies = async (req, res, next) => {
   const errors = validationResult(req);
   if (!req.user) {
     return res.redirect("/admin/login");
@@ -360,6 +366,7 @@ exports.adminMovies = async (req, res, next) => {
     throw error;
   }
   res.render("movies/admin-movie", {
+    title: "Admin-Movies",
     movies: movies,
   });
 };

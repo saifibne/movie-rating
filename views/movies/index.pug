@@ -7,11 +7,11 @@ block content
     main.main
         div.main-image
             div.main-image__container
-                img.main-image__source(src="/images/third.jpg")
+                img.main-image__source(src="/images/third.jpg", alt="image1")
             div.main-image__container
-                img.main-image__source(src="/images/second.jpg")
+                img.main-image__source(src="/images/second.jpg", alt="image2")
             div.main-image__container
-                img.main-image__source(src="/images/fourth.jpg")
+                img.main-image__source(src="/images/fourth.jpg", alt="image3")
             div.arrow__container.arrow__container-right(onclick="nextImage(1)")
                 i(class="fas fa-arrow-right fa-2x")
             div.arrow__container.arrow__container-left(onclick="nextImage(-1)")
@@ -30,26 +30,27 @@ block content
                                     h4 #{movie.ratingInPercentage}%
                                 div.rating__users
                                     p #{movie.totalUser}
-                            img(src=`/${movie.imageUrl}`, alt="")
+                            img(src=`/${movie.imageUrl}`, alt="movieImage")
                         div.card__body
                             div.card__title
                                 p.capital-case #{movie.title}
                             div.card__text
                                 p.capital-case Added By: #{movie.user.name}
         div.pagination
-            if currentPage !== 1
-                a(href = `/?page=${prevPage}`)
-                    i.fas.fa-angle-double-left()
-            if currentPage !== 1 && prevPage !== 1
-                a(href = `/?page=1`, id="firstPage") 1
-            if hasPrevPage
-                a(href=`/?page=${prevPage}`, id="prevPage") #{prevPage}
-            if currentPage
-                a.pagination-current(href=`/?page=${currentPage}`, id="currentPage") #{currentPage}
-            if hasNextPage
-                a(href=`/?page=${nextPage}`, id="nextPage") #{nextPage}
-            if lastPage !== nextPage && lastPage !== currentPage
-                a(href=`/?page=${lastPage}`, id="lastPage") #{lastPage}
-            if currentPage < lastPage
-                a(href = `/?page=${nextPage}`)
-                    i.fas.fa-angle-double-right()
+            if pagination
+                if currentPage !== 1
+                    a(href = `/?page=${prevPage}`)
+                        i.fas.fa-angle-double-left()
+                if currentPage !== 1 && prevPage !== 1
+                    a(href = `/?page=1`, id="firstPage") 1
+                if hasPrevPage
+                    a(href=`/?page=${prevPage}`, id="prevPage") #{prevPage}
+                if currentPage
+                    a.pagination-current(href=`/?page=${currentPage}`, id="currentPage") #{currentPage}
+                if hasNextPage
+                    a(href=`/?page=${nextPage}`, id="nextPage") #{nextPage}
+                if lastPage !== nextPage && lastPage !== currentPage
+                    a(href=`/?page=${lastPage}`, id="lastPage") #{lastPage}
+                if currentPage < lastPage
+                    a(href = `/?page=${nextPage}`)
+                        i.fas.fa-angle-double-right()

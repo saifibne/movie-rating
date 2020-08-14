@@ -257,6 +257,7 @@ body {
   }
   .comment-action__button {
     margin-top: 8px;
+    /*width: 120px;*/
   }
   .comments-header {
     flex-direction: column;

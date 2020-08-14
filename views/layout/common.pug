@@ -3,7 +3,7 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
+        title #{title}
         link(rel="stylesheet", href="/css/main.css")
         link(rel="stylesheet", href="/fontawesome/css/all.min.css")
         block style
@@ -88,5 +88,5 @@ html(lang="en")
 
         block content
         include ./footer.pug
-        script(src="/js/main.js")
-        script(src="/js/delete.js")
+        script(src="/js/main.js", nonce="ibnesaif")
+        script(src="/js/delete.js", nonce="ibnesaif")

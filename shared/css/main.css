@@ -106,6 +106,9 @@ footer {
   width: max-content;
   margin: 0 auto;
 }
+.hamburger-menu__item a {
+  cursor: pointer;
+}
 .hamburger-dropdown__items {
   width: max-content;
   margin: 0 auto;
@@ -145,12 +148,20 @@ footer {
   margin: 0;
   padding: 0;
 }
+.main-nav__item {
+  border: 1px solid #404040;
+  border-radius: 4px;
+}
+.main-nav__item:hover {
+  border-color: white;
+}
 .main-nav__item a {
   text-decoration: none;
   padding: 0 10px;
   font-size: 18px;
   color: white;
   line-height: 1rem;
+  text-shadow: none;
 }
 .main-nav__items--side {
   list-style: none;
@@ -191,7 +202,7 @@ footer {
 .dropdown {
   position: absolute;
   min-width: 100px;
-  top: 40px;
+  top: 38px;
   z-index: 100;
 }
 .special-dropdown {

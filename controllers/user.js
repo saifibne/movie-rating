@@ -6,6 +6,7 @@ const User = require("../model/user");
 exports.getSignUp = (req, res, next) => {
   const message = req.flash("message")[0];
   res.render("users/signup", {
+    title: "Sign-Up",
     errorMessage: message,
   });
 };
@@ -34,6 +35,7 @@ exports.postSignUp = async (req, res, next) => {
 exports.getLogin = (req, res, next) => {
   const flashMessage = req.flash("message");
   res.render("users/login", {
+    title: "Login",
     flashMessage: flashMessage[0],
   });
 };

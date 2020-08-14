@@ -17,14 +17,13 @@ const searchButton = document.querySelector(".search-button");
 const hamburgerSearchButton = document.querySelector(
   ".hamburger-search-button"
 );
-const cardButton = document.querySelector(".card__btn");
 const hamburgerDropdownParent = document.querySelector(
   ".hamburger-menu__dropdown-parent"
 );
 const hamburgerDropdown = document.querySelector(".hamburger-dropdown");
 const hamburgerMenu = document.querySelector(".hamburger-menu");
 const hamburgerContent = document.querySelector(".hamburger-content");
-// const movieDeleteModal = document.querySelector(".movie-delete__modal");
+const imagePreviewDom = document.querySelector(".image-preview");
 let existingCommentStars;
 if (existingCommentRating) {
   existingCommentStars = existingCommentRating.parentNode.querySelectorAll(
@@ -39,7 +38,6 @@ dropdownParent.addEventListener("click", () => {
 });
 
 if (main) {
-  // console.log(existingCommentStars);
   main.addEventListener("click", () => {
     dropdownItems.classList.remove("open");
     if (specialDropdownItems) {
@@ -94,9 +92,6 @@ if (existingCommentRating) {
 }
 
 function searchField(text) {
-  console.log("working");
-  console.log(searchButton.disabled);
-  console.log(text.value.length);
   if (text.value.length === 0) {
     searchButton.disabled = true;
   } else {
@@ -105,9 +100,6 @@ function searchField(text) {
 }
 
 function hamburgerSearchField(text) {
-  console.log("working");
-  console.log(searchButton.disabled);
-  console.log(text.value.length);
   if (text.value.length === 0) {
     hamburgerSearchButton.disabled = true;
   } else {
@@ -137,6 +129,15 @@ if (backDrop) {
     }
   });
 }
+
+const imagePreview = (event) => {
+  const file = event.files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = (e) => {
+    imagePreviewDom.src = e.target.result;
+  };
+};
 
 function showImage(n) {
   if (n > mainImageContainer.length) {

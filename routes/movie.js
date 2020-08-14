@@ -40,7 +40,7 @@ router.post(
       .isEmpty()
       .isLength({ min: 3 }),
   ],
-  movieController.addMovies
+  movieController.postAddMovies
 );
 router.post(
   "/edit-movie",

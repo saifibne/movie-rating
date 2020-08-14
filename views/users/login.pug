@@ -18,9 +18,11 @@ block content
                 div.form__title
                     h1 Welcome Back!
                 div.form-input
-                    input(type='text', placeholder="Enter Email Address...", name="email")
+                    label
+                        input(type='text', placeholder="Enter Email Address...", name="email")
                 div.form-input
-                    input(type='password', placeholder="Password", name="password")
+                    label
+                        input(type='password', placeholder="Password", name="password")
                 div.action
                     button.btn(type='submit') Log In
                 input(type="hidden", name="_csrf", value=_csrf)

@@ -11,6 +11,8 @@ block content
                     h3.error-title There was a problem
                     p.error-body #{flashMessage}
             div.form-container
+                div.image-preview__container
+                    img.image-preview(src=`/${movie.imageUrl}`, alt="")
                 form(method="POST", action="/edit-movie", enctype="multipart/form-data")
                     div.form__title
                         h1 Add Movie
@@ -19,7 +21,7 @@ block content
                         input(type="text", name="title", id="title", placeholder="Movie Title..", value=movie.title)
                     div.form-input
                         label(for="imageUrl") Image
-                        input(type="file", name="imageUrl", id="imageUrl")
+                        input(type="file", name="imageUrl", id="imageUrl", onchange="imagePreview(this)")
                     div.form-input.form-textarea
                         label(for="description") Description
                         textarea(type="text", name="description", id="description", placeholder="Movie Description..", rows=6) #{movie.description}
@@ -44,6 +46,8 @@ block content
                     h3.error-title There was a problem
                     p.error-body #{flashMessage}
             div.form-container
+                div.image-preview__container
+                    img.image-preview(src="", alt="")
                 form(method="POST", action="/add-movie", enctype="multipart/form-data")
                     div.form__title
                         h1 Add Movie
@@ -51,8 +55,8 @@ block content
                         label(for="title") Title
                         input(type="text", name="title", id="title", placeholder="Movie Title..")
                     div.form-input
-                        label(for="imageUrl") Image
-                        input(type="file", name="imageUrl", id="imageUrl")
+                        label(for="imageUrlFile") Image
+                        input(type="file", name="imageUrl", id="imageUrlFile", onchange="imagePreview(this)")
                     div.form-input.form-textarea
                         label(for="description") Description
                         textarea(type="text", name="description", id="description", placeholder="Movie Description..", rows=6)
