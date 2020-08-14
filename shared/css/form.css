@@ -98,3 +98,12 @@ body {
   border-radius: 6px;
   margin: 1rem auto;
 }
+@media (max-width: 600px) {
+  .main {
+    width: 100vw;
+  }
+  .form-container {
+    width: 90%;
+    padding: 1rem;
+  }
+}

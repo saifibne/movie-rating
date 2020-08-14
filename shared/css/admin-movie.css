@@ -39,3 +39,8 @@
 .btn-danger:focus {
   box-shadow: none;
 }
+@media (max-width: 600px) {
+  .card__action {
+    width: max-content;
+  }
+}

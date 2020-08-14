@@ -8,8 +8,13 @@ html(lang="en")
         link(rel="stylesheet", href="/fontawesome/css/all.min.css")
         block style
     body
+        div.backdrop
         header.main-header
-            .header__brand
+            div.hamburger-menu
+                span.hamburger-menu__bar
+                span.hamburger-menu__bar
+                span.hamburger-menu__bar
+            div.header__brand
                 a.header__brand--item(href="/") Rated
             div.navbar
                 .main-nav
@@ -50,6 +55,37 @@ html(lang="en")
                         else
                             li.main-nav__item--side
                                 a(href="/admin/login") Login
+            div.hamburger-content
+                ul.hamburger-menu__items
+                    form.hamburger-search__form(method="POST", action="/movie/search")
+                        input.search-input(type="text", name="searchMovie", onkeyup="hamburgerSearchField(this)")
+                        button.hamburger-search-button(type="submit", disabled)
+                            i.fas.fa-search()
+                        input(type="hidden", name="_csrf", value=_csrf)
+                    li.hamburger-menu__item
+                        a(href="/") Home
+                    li.hamburger-menu__item.hamburger-menu__dropdown-parent
+                        a() Category
+                    li.hamburger-dropdown
+                        ul.hamburger-dropdown__items
+                            li.hamburger-dropdown__item
+                                a(href='/movies/action') Action
+                            li.hamburger-dropdown__item
+                                a(href='/movies/horror') Horror
+                            li.hamburger-dropdown__item
+                                a(href='/movies/romantic') Romantic
+                    if isLoggedIn
+                        li.hamburger-menu__item
+                            a(href="/add-movie") Add Movie
+                        li.hamburger-menu__item
+                            a(href='/admin-movies') Movies
+                        li.hamburger-menu__item
+                            a(href='/admin/logout') Log Out
+            if !isLoggedIn
+                div.user-login__icon
+                    a(href="/admin/login")
+                        i.fas.fa-user-circle.fa-2x()
+
         block content
         include ./footer.pug
         script(src="/js/main.js")

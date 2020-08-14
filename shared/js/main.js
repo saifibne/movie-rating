@@ -1,3 +1,4 @@
+const backDrop = document.querySelector(".backdrop");
 const dropdownParent = document.querySelector(".dropdown-parent");
 const dropdownItems = document.querySelector(".dropdown__items");
 const main = document.querySelector(".main");
@@ -13,7 +14,16 @@ const commentRatingValues = document.querySelectorAll(".comment-rating__value");
 const movieRatingStars = document.querySelectorAll(".movie-rating__star");
 const existingCommentRating = document.querySelector("#existingCommentRating");
 const searchButton = document.querySelector(".search-button");
+const hamburgerSearchButton = document.querySelector(
+  ".hamburger-search-button"
+);
 const cardButton = document.querySelector(".card__btn");
+const hamburgerDropdownParent = document.querySelector(
+  ".hamburger-menu__dropdown-parent"
+);
+const hamburgerDropdown = document.querySelector(".hamburger-dropdown");
+const hamburgerMenu = document.querySelector(".hamburger-menu");
+const hamburgerContent = document.querySelector(".hamburger-content");
 // const movieDeleteModal = document.querySelector(".movie-delete__modal");
 let existingCommentStars;
 if (existingCommentRating) {
@@ -84,11 +94,48 @@ if (existingCommentRating) {
 }
 
 function searchField(text) {
+  console.log("working");
+  console.log(searchButton.disabled);
+  console.log(text.value.length);
   if (text.value.length === 0) {
     searchButton.disabled = true;
   } else {
     searchButton.disabled = false;
   }
+}
+
+function hamburgerSearchField(text) {
+  console.log("working");
+  console.log(searchButton.disabled);
+  console.log(text.value.length);
+  if (text.value.length === 0) {
+    hamburgerSearchButton.disabled = true;
+  } else {
+    hamburgerSearchButton.disabled = false;
+  }
+}
+
+if (hamburgerDropdownParent) {
+  hamburgerDropdownParent.addEventListener("click", () => {
+    hamburgerDropdown.classList.toggle("hamburger-dropdown__show");
+  });
+}
+
+if (hamburgerMenu) {
+  hamburgerMenu.addEventListener("click", () => {
+    backDrop.classList.add("backdrop-show");
+    hamburgerContent.classList.toggle("hamburger-content__show");
+  });
+}
+
+if (backDrop) {
+  backDrop.addEventListener("click", () => {
+    backDrop.classList.remove("backdrop-show");
+    hamburgerContent.classList.remove("hamburger-content__show");
+    if (movieDeleteModal) {
+      movieDeleteModal.classList.remove("movie-delete__modal-show");
+    }
+  });
 }
 
 function showImage(n) {
