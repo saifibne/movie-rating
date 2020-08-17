@@ -351,9 +351,9 @@ exports.postAddMovies = async (req, res, next) => {
   }
   user.movies.push({ movieId: savedMovie._id });
   await user.save();
-  if (req.file) {
-    utils.deleteImage(req.file.path);
-  }
+  // if (req.file) {
+  //   utils.deleteImage(req.file.path);
+  // }
   res.redirect("/");
 };
 
