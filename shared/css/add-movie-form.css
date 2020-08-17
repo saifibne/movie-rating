@@ -163,4 +163,7 @@ body {
     width: 100%;
     margin-top: 4px;
   }
+  .image-preview__container {
+    display: none;
+  }
 }
