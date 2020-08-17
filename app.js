@@ -18,7 +18,8 @@ const errorController = require("./controllers/error");
 
 const app = express();
 const sessionStore = new MongoStore({
-  url: " mongodb://127.0.0.1:27017/movie",
+  url:
+    " mongodb+srv://saifibne:olD0RDAbVtdMtawG@cluster0.5up7i.mongodb.net/movie?retryWrites=true&w=majority",
   collection: "sessions",
   mongoOptions: {
     useNewUrlParser: true,
@@ -128,10 +129,13 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(" mongodb://127.0.0.1:27017/movie", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    " mongodb+srv://saifibne:olD0RDAbVtdMtawG@cluster0.5up7i.mongodb.net/movie?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then((result) => {
     console.log("connected to database");
     app.listen(3000);
