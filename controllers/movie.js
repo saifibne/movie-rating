@@ -6,7 +6,7 @@ const utils = require("../utils/utils");
 
 exports.getMovies = async (req, res, next) => {
   let currentPage = req.query.page || 1;
-  const ITEMS_PER_PAGE = 2;
+  const ITEMS_PER_PAGE = 8;
   if (currentPage < 1) {
     currentPage = 1;
   }
@@ -103,7 +103,7 @@ exports.postEditMovie = async (req, res, next) => {
   movie.title = updatedTitle;
   let updatedImageUrl;
   if (req.file) {
-    updatedImageUrl = req.file.path;
+    updatedImageUrl = req.compressedImage.destinationPath;
   } else {
     updatedImageUrl = movie.imageUrl;
   }
@@ -114,6 +114,9 @@ exports.postEditMovie = async (req, res, next) => {
   movie.description = updatedDescription;
   movie.category = updatedCategory;
   await movie.save();
+  if (req.file) {
+    utils.deleteImage(req.file.path);
+  }
   res.redirect("/admin-movies");
 };
 
@@ -332,7 +335,7 @@ exports.postAddMovies = async (req, res, next) => {
   const userId = req.user._id;
   const movie = new Movie({
     title: title,
-    imageUrl: imageUrl.path,
+    imageUrl: req.compressedImage.destinationPath,
     description: description,
     originalRating: 0,
     user: userId,
@@ -348,6 +351,9 @@ exports.postAddMovies = async (req, res, next) => {
   }
   user.movies.push({ movieId: savedMovie._id });
   await user.save();
+  if (req.file) {
+    utils.deleteImage(req.file.path);
+  }
   res.redirect("/");
 };
 

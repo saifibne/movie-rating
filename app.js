@@ -7,8 +7,9 @@ const MongoStore = require("connect-mongo")(session);
 const flash = require("connect-flash");
 const multer = require("multer");
 const csrf = require("csurf");
-const helmet = require("helmet");
 const compression = require("compression");
+const imageMin = require("imagemin");
+const imageMinWebp = require("imagemin-webp");
 
 const movieRoute = require("./routes/movie");
 const userRoute = require("./routes/user");
@@ -49,7 +50,10 @@ const fileFilter = (req, file, cb) => {
 app.set("view engine", "pug");
 app.set("views", "./views");
 app.use(express.static(path.join(__dirname, "shared")));
-app.use("/images", express.static(path.join(__dirname, "images")));
+app.use(
+  "/build/images",
+  express.static(path.join(__dirname, "build", "images"))
+);
 app.use(
   "/fontawesome",
   express.static(
@@ -62,6 +66,16 @@ app.use(compression());
 app.use(
   multer({ storage: storage, fileFilter: fileFilter }).single("imageUrl")
 );
+app.use(async (req, res, next) => {
+  if (req.file) {
+    const imageFile = await imageMin([req.file.path], {
+      destination: "build/images",
+      plugins: [imageMinWebp()],
+    });
+    req.compressedImage = imageFile[0];
+  }
+  next();
+});
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
