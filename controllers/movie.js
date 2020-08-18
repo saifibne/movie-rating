@@ -122,7 +122,7 @@ exports.postEditMovie = async (req, res, next) => {
 
 exports.getMovieByCategory = async (req, res, next) => {
   const movieCategory = req.params.movieCategory;
-  const movies = await Movie.find({ category: movieCategory });
+  const movies = await Movie.find({ category: movieCategory }).populate("user");
   if (!movies) {
     const error = new Error("could not find Movies");
     error.statusCode = 500;
