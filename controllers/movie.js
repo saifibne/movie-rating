@@ -1,4 +1,10 @@
 const { validationResult } = require("express-validator");
+const aws = require("aws-sdk");
+
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 
 const User = require("../model/user");
 const Movie = require("../model/movie");
@@ -335,7 +341,8 @@ exports.postAddMovies = async (req, res, next) => {
   const userId = req.user._id;
   const movie = new Movie({
     title: title,
-    imageUrl: req.compressedImage.destinationPath,
+    imageUrl: req.uploadData.Location,
+    imageName: req.uploadData.Key,
     description: description,
     originalRating: 0,
     user: userId,
@@ -401,7 +408,17 @@ exports.postDeleteMovie = async (req, res, next) => {
     error.statusCode = 500;
     throw error;
   }
-  utils.deleteImage(movie.imageUrl);
+  const params = {
+    Bucket: "test-bucket-5577",
+    Key: movie.imageName,
+  };
+  s3.deleteObject(params, (error, data) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(data);
+    }
+  });
   await Movie.findByIdAndRemove(movieId);
   res.status(200).json({
     message: "movie deleted",

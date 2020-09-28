@@ -30,7 +30,7 @@ block content
                                     h4 #{movie.ratingInPercentage}%
                                 div.rating__users
                                     p #{movie.totalUser}
-                            img(src=`/${movie.imageUrl}`, alt="movieImage")
+                            img(src=movie.imageUrl, alt="movieImage")
                         div.card__body
                             div.card__title
                                 p.capital-case #{movie.title}

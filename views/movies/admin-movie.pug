@@ -17,7 +17,7 @@ block content
             each movie in movies
                 div.card
                     div.card__image
-                        img(src=`/${movie.imageUrl}`, alt="movieImage")
+                        img(src=movie.imageUrl, alt="movieImage")
                     div.card__body
                         div.card__title
                             p.capital-case #{movie.title}

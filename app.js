@@ -1,3 +1,4 @@
+const env = require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -10,22 +11,28 @@ const csrf = require("csurf");
 const compression = require("compression");
 const imageMin = require("imagemin");
 const imageMinWebp = require("imagemin-webp");
+const aws = require("aws-sdk");
 
 const movieRoute = require("./routes/movie");
 const userRoute = require("./routes/user");
 const User = require("./model/user");
 const errorController = require("./controllers/error");
+const utils = require("./utils/utils");
 
 const app = express();
 const sessionStore = new MongoStore({
-  url:
-    " mongodb+srv://saifibne:olD0RDAbVtdMtawG@cluster0.5up7i.mongodb.net/movie?retryWrites=true&w=majority",
+  url: ` mongodb+srv://saifibne:${process.env.MONGODB_PASSWORD}@cluster0.5up7i.mongodb.net/movie?retryWrites=true&w=majority`,
   collection: "sessions",
   mongoOptions: {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   },
 });
+aws.config.update({
+  accessKeyId: process.env.AWS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+const s3 = new aws.S3();
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./images");
@@ -73,9 +80,27 @@ app.use(async (req, res, next) => {
       destination: "build/images",
       plugins: [imageMinWebp()],
     });
-    req.compressedImage = imageFile[0];
+    const image = imageFile[0];
+    const imageNameArray = image.destinationPath.split("/");
+    const imageName = imageNameArray[imageNameArray.length - 1];
+    const params = {
+      Bucket: "test-bucket-5577",
+      Key: imageName,
+      Body: image.data,
+    };
+    // console.log(params);
+    s3.upload(params, (error, data) => {
+      if (error) {
+        throw error;
+      } else {
+        req.uploadData = data;
+        utils.deleteImage(image.destinationPath);
+        next();
+      }
+    });
+  } else {
+    next();
   }
-  next();
 });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
@@ -130,7 +155,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    " mongodb+srv://saifibne:olD0RDAbVtdMtawG@cluster0.5up7i.mongodb.net/movie?retryWrites=true&w=majority",
+    ` mongodb+srv://saifibne:${process.env.MONGODB_PASSWORD}@cluster0.5up7i.mongodb.net/movie?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -138,7 +163,7 @@ mongoose
   )
   .then((result) => {
     console.log("connected to database");
-    app.listen(process.env.PORT || 3000);
+    app.listen(process.env.PORT || 4000);
   })
   .catch((err) => {
     console.log(err);
