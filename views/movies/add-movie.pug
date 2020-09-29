@@ -12,7 +12,7 @@ block content
                     p.error-body #{flashMessage}
             div.form-container
                 div.image-preview__container
-                    img.image-preview(src=`/${movie.imageUrl}`, alt="")
+                    img.image-preview(src=movie.imageUrl, alt="")
                 form(method="POST", action="/edit-movie", enctype="multipart/form-data")
                     div.form__title
                         h1 Add Movie

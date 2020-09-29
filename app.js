@@ -1,4 +1,4 @@
-const env = require("dotenv").config();
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -88,7 +88,6 @@ app.use(async (req, res, next) => {
       Key: imageName,
       Body: image.data,
     };
-    // console.log(params);
     s3.upload(params, (error, data) => {
       if (error) {
         throw error;
@@ -146,7 +145,6 @@ app.use((error, req, res, next) => {
   if (error) {
     const message = error.message;
     const statusCode = error.statusCode || 500;
-    console.log(message);
     res
       .status(404)
       .sendFile(path.join(__dirname, "views", "error", "404.html"));
@@ -163,7 +161,7 @@ mongoose
   )
   .then((result) => {
     console.log("connected to database");
-    app.listen(process.env.PORT || 4000);
+    app.listen(process.env.PORT || 3000);
   })
   .catch((err) => {
     console.log(err);

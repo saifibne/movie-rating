@@ -108,14 +108,26 @@ exports.postEditMovie = async (req, res, next) => {
   }
   movie.title = updatedTitle;
   let updatedImageUrl;
+  let updatedImageName;
   if (req.file) {
-    updatedImageUrl = req.compressedImage.destinationPath;
+    updatedImageUrl = req.uploadData.Location;
+    updatedImageName = req.uploadData.Key;
   } else {
     updatedImageUrl = movie.imageUrl;
+    updatedImageName = movie.imageName;
   }
   if (movie.imageUrl !== updatedImageUrl) {
-    utils.deleteImage(movie.imageUrl);
+    const params = {
+      Bucket: "test-bucket-5577",
+      Key: movie.imageName,
+    };
+    s3.deleteObject(params, (error, data) => {
+      if (error) {
+        console.log(error);
+      }
+    });
     movie.imageUrl = updatedImageUrl;
+    movie.imageName = updatedImageName;
   }
   movie.description = updatedDescription;
   movie.category = updatedCategory;
