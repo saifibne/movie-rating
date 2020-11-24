@@ -14,7 +14,7 @@ body {
   min-height: 100vh;
   width: 100%;
   background-color: white;
-  grid-template-rows: 52px auto fit-content(53px);
+  grid-template-rows: 52px 1fr fit-content(53px);
   grid-template-areas:
     "header"
     "main"
